@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "background": "#f6fafb", "on-surface-variant": "#3d4948", "on-background": "#181c1d", "on-error": "#ffffff", "tertiary": "#545d63", "inverse-primary": "#62d9d3", "on-primary": "#ffffff", "inverse-surface": "#2c3132", "inverse-on-surface": "#edf1f2", "primary-fixed-dim": "#62d9d3", "error": "#ba1a1a", "error-container": "#ffdad6", "outline-variant": "#bcc9c7", "tertiary-fixed-dim": "#bec8ce", "secondary-fixed": "#d5e3ff", "on-primary-fixed": "#00201f", "tertiary-fixed": "#dae4eb", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "primary": "#006764", "primary-fixed": "#81f5ef", "surface-container-high": "#e5e9ea", "primary-container": "#00827e", "on-tertiary-fixed": "#131d22", "on-surface": "#181c1d", "on-tertiary": "#ffffff", "secondary-container": "#ccdeff", "on-tertiary-container": "#fbfdff", "on-primary-fixed-variant": "#00504d", "surface-container": "#eaeef0", "secondary-fixed-dim": "#b6c7e8", "surface-bright": "#f6fafb", "surface-dim": "#d6dbdc", "surface-variant": "#dfe3e4", "outline": "#6d7a78", "on-secondary-fixed-variant": "#374762", "on-secondary-container": "#51627e", "surface": "#f6fafb", "surface-container-highest": "#dfe3e4", "on-primary-container": "#f3fffd", "tertiary-container": "#6c767c", "secondary": "#4e5f7b", "on-tertiary-fixed-variant": "#3e484e", "surface-tint": "#006a66", "surface-container-low": "#f0f4f5", "on-secondary-fixed": "#091c34" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2rem", "space-lg": "1.5rem", "margin": "2rem", "gutter": "1.5rem", "space-md": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-lg": [ "Plus Jakarta Sans" ], "headline-xl": [ "Plus Jakarta Sans" ], "numeric-metric": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "label-sm": [ "Plus Jakarta Sans" ], "display-lg": [ "Plus Jakarta Sans" ], "headline-md": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "body-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "headline-xl": [ "2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" } ], "numeric-metric": [ "2rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-md": [ "0.9375rem", { "lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "400" } ], "label-md": [ "0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "600" } ], "label-sm": [ "0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.04em", "fontWeight": "600" } ], "display-lg": [ "3rem", { "lineHeight": "3.75rem", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "headline-md": [ "1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-sm": [ "0.8125rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "400" } ], "body-lg": [ "1.125rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface-container-low font-body-md text-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-40 flex flex-col justify-between shadow-[0_4px_24px_rgba(20,40,50,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm"><img alt="ParkSmart Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V1xRwnErbYUlzD8_Lkm5KlnoiQKHy-wFGxpIB4jWrEgjdUHcSUFsCCqSF0c_g2P7Ig6NzWmAIBiGHZswcTS0cLqnB3Mk-YGfl5G-kT-nmZ1zgncmGglXZqsFcOcWggt4AA94cUP9ZSoYMbuROWw8nahWHNHnPpXuZ1ZIQ3HWm87rP0IcBxtEXk_h1K9YDsrO0WwJ6IP0-bPmXvEVx-12WIFoXmuoYcb2VTleUQyjcbQ2A4OikZHq1elbI"/><span class="font-headline-md text-headline-md text-on-surface tracking-tight">ParkSmart</span></div><nav class="flex flex-col gap-space-xs px-space-md mt-space-md" data-active-classes="bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_4px_14px_rgba(0,130,126,0.3)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="parking-discovery" href="#"><span class="material-symbols-outlined text-[20px]">location_on</span><span>Parking Discovery</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-all duration-150 bg-primary-container text-on-primary font-label-md text-label-md shadow-[0_4px_14px_rgba(0,130,126,0.3)]" data-path="bay-layout" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Bay Layout</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="reservations" href="#"><span class="material-symbols-outlined text-[20px]">event_available</span><span>Reservations</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="active-sessions" href="#"><span class="material-symbols-outlined text-[20px]">timer</span><span>Active Sessions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="vehicles" href="#"><span class="material-symbols-outlined text-[20px]">directions_car</span><span>Vehicles</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">credit_card</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="admin-ops" href="#"><span class="material-symbols-outlined text-[20px]">verified_user</span><span>Admin Ops</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-all duration-150" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-tertiary font-label-md text-label-md hover:bg-error-container hover:text-on-error-container transition-colors duration-150" data-path="logout" href="#"><span class="material-symbols-outlined text-[20px]">logout</span><span>Logout</span></a></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 z-30 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_12px_rgba(20,40,50,0.04)]"><div class="h-16 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm font-label-md text-label-md text-tertiary"><span class="text-on-surface-variant">Dashboard</span><span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span><span class="text-primary font-bold">Live Parking Map</span></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-[18px] text-tertiary pointer-events-none">search</span><input class="w-64 lg:w-80 h-10 pl-9 pr-space-md rounded-full bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-tertiary focus:outline-none focus:bg-surface-container-lowest shadow-[0_1px_4px_rgba(20,40,50,0.04)] transition-all" placeholder="Search bays, license plates, zones..." type="text"/></div><div class="hidden sm:flex items-center p-1 bg-surface-container-low rounded-full gap-1"><button class="px-3 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-lowest text-on-surface shadow-[0_1px_3px_rgba(20,40,50,0.08)]" type="button">User View</button><button class="px-3 py-1 rounded-full font-label-sm text-label-sm text-tertiary hover:text-on-surface transition-colors" type="button">Admin Ops</button></div><button class="relative p-2 rounded-full text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_2px_6px_rgba(20,40,50,0.08)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6sQGrUgTj5K9fFApmYWYTb4bvl-to6JXjfn-jCIbaWXj0niUXGxnskzaBPP2mGwRPdrhUlRA41p49IETkURgIvPP5wbTOv235TVh6sr-SsuYVJcJn6g5rv60TFA0tkz6U0V2E5w-5OFQNxxlnwHuJ1XPjboeMeQTzzvJoaFq2VMlZAmPrEFa-Hz513TOR3Kq6qqXvl4niz2uvO0k_fLgUFlfWVAZHeyOHlFgjTUgeCfMvwAX3-3rc"/><div class="hidden md:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Ashrit V.</span><span class="font-label-sm text-label-sm text-tertiary leading-tight">Fleet Manager</span></div></div></div></div></header><main class="w-full pt-16 p-gutter min-h-screen bg-surface-container-low"><div class="w-full min-h-[calc(100vh-6.5rem)] rounded-[20px] bg-surface-container-lowest shadow-[0_8px_30px_rgba(20,40,50,0.06)] p-gutter"><div class="flex flex-col w-full">
+<!-- Top Operational Control Panel -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex flex-wrap items-center gap-space-md">
+<!-- Facility Selector -->
+<div class="relative inline-flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-primary text-[20px] pointer-events-none">local_parking</span>
+<select class="appearance-none bg-surface-container-low text-on-surface font-headline-md text-headline-md pl-10 pr-10 py-2.5 rounded-xl cursor-pointer focus:outline-none focus:bg-surface-container-high transition-colors shadow-sm">
+<option selected="">Central City Parking Hub - Sector 4</option>
+<option>Metro Hub Galleria Deck A</option>
+<option>Airport Terminal 2 Executive Parking</option>
+<option>Northside Logistics Bay L4</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 text-tertiary text-[20px] pointer-events-none">expand_more</span>
+</div>
+<!-- Live Facility Telemetry Pill -->
+<div class="hidden sm:flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-on-surface font-medium">Telemetry: Live</span>
+<span class="text-outline">/</span>
+<span>Sensor Latency 42ms</span>
+</div>
+</div>
+<!-- Live Occupancy Metric Strip -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-md py-2 rounded-xl shadow-sm">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-metric text-numeric-metric text-on-surface leading-none">18</span>
+<span class="text-tertiary font-label-md text-label-md">/ 32 free</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">56% Free</span>
+</div>
+<span class="text-tertiary font-label-sm text-label-sm mt-1">Floor 1 Real-time Capacity</span>
+</div>
+<div class="w-28 sm:w-36 h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 56.25%;"></div>
+</div>
+</div>
+</div>
+<!-- Floor Selector Tabs & Filter Legend Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-low p-2 rounded-xl mb-space-lg">
+<!-- Floor Deck Switches -->
+<div class="flex items-center gap-1 overflow-x-auto pb-1 lg:pb-0" id="floor-tabs">
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" type="button">
+        Basement 1
+      </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary font-bold shadow-md shrink-0 flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">layers</span>
+        Floor 1 (Ground)
+      </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" type="button">
+        Floor 2
+      </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0 flex items-center gap-1" type="button">
+        Floor 3
+        <span class="px-1.5 py-0.5 text-[10px] rounded bg-secondary-container text-on-secondary-container font-semibold">EV &amp; VIP</span>
+</button>
+</div>
+<!-- Status Legend Filters -->
+<div class="flex flex-wrap items-center gap-2 text-tertiary font-label-sm text-label-sm">
+<span class="font-label-sm text-tertiary mr-1 hidden xl:inline">Filter View:</span>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span>
+<span class="text-on-surface">Available (18)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#0284c7]"></span>
+<span class="text-on-surface">Reserved (4)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#ef4444]"></span>
+<span class="text-on-surface">Occupied (8)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span>
+<span class="text-on-surface">Maintenance (1)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#64748b]"></span>
+<span class="text-on-surface">Accessible (1)</span>
+</div>
+</div>
+</div>
+<!-- Main Spatial Layout + Floating Reservation Drawer Split Canvas -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Floor Plan Interactive Canvas (8 Columns on desktop) -->
+<div class="xl:col-span-8 flex flex-col bg-surface-container-low rounded-2xl p-space-md lg:p-space-lg relative overflow-hidden shadow-[0_4px_20px_rgba(20,40,50,0.03)]">
+<!-- Canvas Header / Architectural Metadata -->
+<div class="flex items-center justify-between pb-space-md mb-space-md border-b-0 border-transparent">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">architecture</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Deck Level 1 Blueprint Canvas</h3>
+<p class="font-body-sm text-body-sm text-tertiary">Central Concourse • Clearance 2.40m • Ultrasonic Sensors Sync</p>
+</div>
+</div>
+<!-- Floor Tools Floating Ribbon -->
+<div class="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-xl shadow-sm">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Zoom In">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Reset Orientation">
+<span class="material-symbols-outlined text-[18px]">crop_free</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors" title="Heatmap View">
+<span class="material-symbols-outlined text-[18px]">sensors</span>
+</button>
+</div>
+</div>
+<!-- Architectural Bay Layout Graphic Canvas -->
+<div class="relative w-full bg-surface-container rounded-xl p-4 sm:p-6 overflow-x-auto">
+<div class="min-w-[760px] flex flex-col gap-6">
+<!-- North Wall / Facilities Markers -->
+<div class="flex items-center justify-between px-2 text-tertiary font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">elevator</span>
+<span>North Elevator Bank 01 &amp; 02</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">meeting_room</span>
+<span>Concourse Corridor A</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">emergency</span>
+<span>Stairwell 1 (Emergency Exit)</span>
+</div>
+</div>
+<!-- NORTH ROW: Bays A-01 through A-08 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between px-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Row A — North Wing</span>
+<span class="font-label-sm text-label-sm text-tertiary">Bays A-01 to A-08</span>
+</div>
+<div class="grid grid-cols-8 gap-3">
+<!-- A-01 Occupied -->
+<div class="group relative flex flex-col justify-between h-36 rounded-xl bg-[#FEF2F2] p-2.5 shadow-sm transition-all duration-150 cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#991B1B]">A-01</span>
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#991B1B]/70">
+<span class="material-symbols-outlined text-[28px]">directions_car</span>
+<span class="font-label-sm text-[10px] text-[#991B1B] font-semibold mt-0.5">KA 03 MX 9011</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#991B1B]/80 font-medium">
+                  Occupied (1h 12m)
+                </div>
+</div>
+<!-- A-02 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">A-02</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Sedan</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- A-03 Reserved -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-[#F0F9FF] p-2.5 shadow-sm cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#075985]">A-03</span>
+<span class="w-2 h-2 rounded-full bg-[#0284C7]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#0284C7]/80">
+<span class="material-symbols-outlined text-[26px]">event_seat</span>
+<span class="font-label-sm text-[10px] font-semibold text-[#075985] mt-0.5">Arriving 14:15</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#075985] font-medium bg-[#E0F2FE] py-0.5 rounded">
+                  Reserved
+                </div>
+</div>
+<!-- A-04 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">A-04</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Standard</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- A-05 Occupied -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-[#FEF2F2] p-2.5 shadow-sm cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#991B1B]">A-05</span>
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#991B1B]/70">
+<span class="material-symbols-outlined text-[28px]">directions_car</span>
+<span class="font-label-sm text-[10px] text-[#991B1B] font-semibold mt-0.5">DL 1C BB 4431</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#991B1B]/80 font-medium">
+                  Occupied (44m)
+                </div>
+</div>
+<!-- A-06 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">A-06</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Standard</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- A-07 Maintenance -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-[#FFFBEB] p-2.5 shadow-sm cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#92400E]">A-07</span>
+<span class="w-2 h-2 rounded-full bg-[#F59E0B]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#92400E]/80">
+<span class="material-symbols-outlined text-[26px]">handyman</span>
+<span class="font-label-sm text-[10px] text-[#92400E] font-semibold mt-0.5">Sensor Check</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#92400E] font-medium bg-[#FEF3C7] py-0.5 rounded">
+                  Hold
+                </div>
+</div>
+<!-- A-08 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">A-08</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Compact</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+</div>
+</div>
+<!-- CENTRAL DRIVEWAY LANE WITH DIRECTIONAL SIGNALS -->
+<div class="relative w-full h-24 bg-surface-container-highest rounded-2xl flex items-center justify-between px-8 shadow-inner overflow-hidden">
+<!-- Center Dashed Line -->
+<div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-around opacity-40">
+<span class="h-1 w-12 bg-surface-container-lowest rounded-full"></span>
+<span class="h-1 w-12 bg-surface-container-lowest rounded-full"></span>
+<span class="h-1 w-12 bg-surface-container-lowest rounded-full"></span>
+<span class="h-1 w-12 bg-surface-container-lowest rounded-full"></span>
+<span class="h-1 w-12 bg-surface-container-lowest rounded-full"></span>
+</div>
+<!-- Direction Indicator Left -->
+<div class="flex items-center gap-2 text-on-surface-variant z-10">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold tracking-wider">
+<span class="material-symbols-outlined text-[20px] text-primary">arrow_forward</span>
+<span>ONE WAY TRAFFIC FLOW</span>
+</div>
+</div>
+<!-- Speed Limit Sign Badge -->
+<div class="flex items-center gap-3 z-10">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest shadow-md flex flex-col items-center justify-center border-0">
+<span class="font-numeric-metric text-[15px] font-extrabold text-error leading-none">10</span>
+<span class="text-[8px] font-label-sm font-bold text-tertiary leading-none mt-0.5">KM/H</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary hidden md:inline">Drive Safe • Pedestrian Crossing Zone</span>
+</div>
+<!-- Arrow Right -->
+<div class="flex items-center gap-2 text-on-surface-variant z-10">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold tracking-wider">
+<span>EXIT RAMP D</span>
+<span class="material-symbols-outlined text-[20px] text-primary">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- SOUTH ROW: Bays B-01 through B-08 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between px-2">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Row B — South Wing</span>
+<span class="font-label-sm text-label-sm text-tertiary">Bays B-01 to B-08</span>
+</div>
+<div class="grid grid-cols-8 gap-3">
+<!-- B-01 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">B-01</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">SUV</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- B-02 Occupied -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-[#FEF2F2] p-2.5 shadow-sm cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#991B1B]">B-02</span>
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#991B1B]/70">
+<span class="material-symbols-outlined text-[28px]">directions_car</span>
+<span class="font-label-sm text-[10px] text-[#991B1B] font-semibold mt-0.5">MH 12 QP 5510</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#991B1B]/80 font-medium">
+                  Occupied (2h 05m)
+                </div>
+</div>
+<!-- B-03 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">B-03</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Standard</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- B-04 SELECTED - Strong Teal Glowing Outline -->
+<button class="bay-item relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest p-2.5 shadow-[0_0_0_3px_#00827e,0_12px_28px_rgba(0,130,126,0.25)] text-left transform scale-[1.03] transition-all" id="bay-b04" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary">B-04</span>
+<span class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-primary">
+<span class="material-symbols-outlined text-[32px]">check_circle</span>
+<span class="text-[11px] font-bold text-primary mt-1">SELECTED</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-bold text-on-primary bg-primary-container py-0.5 rounded shadow-sm">
+                  Active Choice
+                </div>
+</button>
+<!-- B-05 Available EV Fast Charge -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">B-05</span>
+<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-primary">
+<span class="material-symbols-outlined text-[26px]">ev_station</span>
+<span class="text-[10px] font-bold text-primary">50kW DC</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free • EV
+                </div>
+</button>
+<!-- B-06 Occupied -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-[#FEF2F2] p-2.5 shadow-sm cursor-not-allowed">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-[#991B1B]">B-06</span>
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-[#991B1B]/70">
+<span class="material-symbols-outlined text-[28px]">directions_car</span>
+<span class="font-label-sm text-[10px] text-[#991B1B] font-semibold mt-0.5">HR 26 DQ 8820</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-[#991B1B]/80 font-medium">
+                  Occupied (32m)
+                </div>
+</div>
+<!-- B-07 Available -->
+<button class="bay-item group relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-lowest hover:bg-[#ECFDF5] p-2.5 shadow-sm transition-all duration-150 text-left hover:scale-[1.02]" type="button">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface">B-07</span>
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-tertiary group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">garage</span>
+<span class="text-[11px] font-medium text-tertiary">Standard</span>
+</div>
+<div class="text-[11px] text-center font-label-sm font-semibold text-[#065F46] bg-[#ECFDF5] py-0.5 rounded">
+                  Free
+                </div>
+</button>
+<!-- B-08 Disabled / Accessible -->
+<div class="relative flex flex-col justify-between h-36 rounded-xl bg-surface-container-highest p-2.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">B-08</span>
+<span class="w-2 h-2 rounded-full bg-[#64748b]"></span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto text-secondary">
+<span class="material-symbols-outlined text-[28px]">accessible</span>
+<span class="text-[10px] font-semibold text-secondary mt-0.5">Permit Req.</span>
+</div>
+<div class="text-[10px] text-center font-label-sm text-secondary font-medium bg-surface-container py-0.5 rounded">
+                  Accessible
+                </div>
+</div>
+</div>
+</div>
+<!-- South Wall / Wayfinding Footer -->
+<div class="flex items-center justify-between px-2 pt-2 text-tertiary font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">ev_station</span>
+<span>Fast Charging Station Array (Bays B-05 / B-06)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">security</span>
+<span>Guard Station Sector 4 • CCTV Active</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Facility Overview Micro-Metrics Footer -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm mt-space-md pt-space-sm">
+<div class="p-3 bg-surface-container-lowest rounded-xl flex items-center gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">thermostat</span>
+<div>
+<div class="font-label-sm text-label-sm text-tertiary">Deck Ambient Temp</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">22.4°C • Clean Air</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl flex items-center gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">videocam</span>
+<div>
+<div class="font-label-sm text-label-sm text-tertiary">ANPR Camera Sync</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">100% Operational</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl flex items-center gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">bolt</span>
+<div>
+<div class="font-label-sm text-label-sm text-tertiary">EV Grid Load</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">34.8 kW / 120 kW</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl flex items-center gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">payments</span>
+<div>
+<div class="font-label-sm text-label-sm text-tertiary">Dynamic Pricing</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">Standard Base (₹30)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Detail / Reservation Drawer (4 Columns on desktop) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Primary Reservation Ticket Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-[0_8px_30px_rgba(20,40,50,0.08)] flex flex-col justify-between">
+<div>
+<!-- Header and Badge -->
+<div class="flex items-start justify-between mb-space-md">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                  Verified Optimal Space
+                </span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mt-1.5 leading-tight">Selected Space: Bay B-04</h2>
+<p class="font-body-sm text-body-sm text-tertiary">Sector 4 Concourse • Level 1 Ground</p>
+</div>
+<button class="p-2 rounded-xl bg-surface-container-low text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Bookmark Bay">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<!-- Bay Specifications Attribute Grid -->
+<div class="bg-surface-container-low p-space-md rounded-xl mb-space-lg space-y-2.5">
+<div class="text-tertiary font-label-sm text-label-sm font-semibold uppercase tracking-wider">Bay Attributes</div>
+<div class="grid grid-cols-2 gap-2 text-on-surface font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">floor</span>
+<span>Floor 1 (Ground)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">directions_car</span>
+<span>Standard SUV/Sedan</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">umbrella</span>
+<span>Covered Shade</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">elevator</span>
+<span>Next to Elevator 2</span>
+</div>
+<div class="flex items-center gap-2 col-span-2">
+<span class="material-symbols-outlined text-primary text-[18px]">ev_station</span>
+<span>EV Capable (Adjacent to Fast Charger)</span>
+</div>
+</div>
+</div>
+<!-- Visual Facility Snapshot / Direction Preview -->
+<div class="relative h-32 rounded-xl overflow-hidden mb-space-lg shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Modern well-lit subterranean European commercial parking garage interior with clean concrete floors, bright teal LED directional overhead signage, numbered parking bays, and an immaculate silver sedan entering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEEk6mdVWR3yVhxl3z0RHc8TQuUvUKC0IPfL2hGj8nzzWu_vO_H2W1sF_Lz-GgPImw0LXXGKRW0Ht6IC7V5lEauxXxoZ2IpJuzeZ47ziBe0rZ8x-FVi3ftY-ZcQCxLcXSH9BIownxDRXZmoYyV93Rt6EP0gBProKK7StRnXfeHCZD-DITAIUtdmzqTCkN45p3byxRPb6BAjYuER6ZkMoIVVFb62V9iznRcSlDqXy06v-EVpl9GAPMu"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-3">
+<div class="flex items-center justify-between w-full text-white font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">navigation</span>
+                  Direct Access via North Gate 2
+                </span>
+<span class="font-bold">Walk time: 45s to lifts</span>
+</div>
+</div>
+</div>
+<!-- Vehicle Picker Field -->
+<div class="space-y-1.5 mb-space-md">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Select Active Vehicle</span>
+<a class="text-primary font-label-sm text-label-sm hover:underline" href="#">+ Add Vehicle</a>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-tertiary text-[20px] pointer-events-none">directions_car</span>
+<select class="w-full h-11 pl-11 pr-10 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors shadow-sm">
+<option selected="">MP09 AB 1234 — Toyota Corolla (White)</option>
+<option>DL 03 XY 9876 — Tesla Model 3 (Midnight Silver)</option>
+<option>KA 01 EK 4004 — Hyundai Ioniq 5 (Teal)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary text-[20px] pointer-events-none">unfold_more</span>
+</div>
+</div>
+<!-- Duration Segmented Selector -->
+<div class="space-y-1.5 mb-space-lg">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span>Duration Needed</span>
+<span class="text-tertiary font-body-sm text-body-sm">Extended flex rates apply</span>
+</label>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-2 rounded-xl bg-surface-container-low text-tertiary font-label-sm text-label-sm hover:bg-surface-container-high hover:text-on-surface transition-all" type="button">
+                1 hr
+              </button>
+<button class="py-2 rounded-xl bg-primary-container text-on-primary font-label-sm text-label-sm font-bold shadow-md" type="button">
+                2 hrs
+              </button>
+<button class="py-2 rounded-xl bg-surface-container-low text-tertiary font-label-sm text-label-sm hover:bg-surface-container-high hover:text-on-surface transition-all" type="button">
+                4 hrs
+              </button>
+<button class="py-2 rounded-xl bg-surface-container-low text-tertiary font-label-sm text-label-sm hover:bg-surface-container-high hover:text-on-surface transition-all" type="button">
+                Full Day
+              </button>
+</div>
+</div>
+<!-- Pricing Breakdown & Rate Summary -->
+<div class="p-space-md rounded-xl bg-surface-container mb-space-lg space-y-2">
+<div class="flex items-center justify-between font-body-sm text-body-sm text-tertiary">
+<span>Base Hourly Tariff</span>
+<span>₹30.00 / hr</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-tertiary">
+<span>Selected Window (2 hrs)</span>
+<span>₹60.00</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-tertiary">
+<span>Convenience &amp; Platform Fee</span>
+<span>₹5.00</span>
+</div>
+<div class="pt-2 border-t-0 flex items-baseline justify-between">
+<span class="font-headline-md text-headline-md text-on-surface">Total Payable</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-metric text-numeric-metric text-primary">₹65</span>
+<span class="font-label-sm text-label-sm text-tertiary">incl. GST</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-2">
+<button class="w-full h-12 rounded-xl bg-primary hover:bg-[#00504d] text-on-primary font-label-md text-label-md font-bold shadow-[0_4px_16px_rgba(0,103,100,0.35)] flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99]" type="button">
+<span>Proceed to Reserve Bay B-04</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 text-tertiary font-label-sm text-label-sm py-1">
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+<span>Holds space for 15 minutes upon confirmation</span>
+</div>
+</div>
+</div>
+<!-- Nearby Amenity & Shortcut Card -->
+<div class="bg-surface-container-low rounded-2xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">directions_walk</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-semibold text-on-surface">Need assistance navigating?</div>
+<div class="font-body-sm text-body-sm text-tertiary">Send bay pin to your in-dash navigation</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-sm text-label-sm font-bold shadow-sm hover:bg-surface-container-high transition-colors" type="button">
+          Push to Car
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction for selecting free bays dynamically on the floor layout
+  document.querySelectorAll('.bay-item').forEach(function(bay) {
+    bay.addEventListener('click', function() {
+      // Clear previous custom active state from B-04
+      const activeBay = document.getElementById('bay-b04');
+      if (activeBay && activeBay !== this) {
+        activeBay.classList.remove('shadow-[0_0_0_3px_#00827e,0_12px_28px_rgba(0,130,126,0.25)]', 'scale-[1.03]');
+        activeBay.classList.add('shadow-sm');
+      }
+
+      // Add selection emphasis
+      this.classList.add('shadow-[0_0_0_3px_#00827e,0_12px_28px_rgba(0,130,126,0.25)]', 'scale-[1.03]');
+    });
+  });
+</script></div></main></div></body></html>
