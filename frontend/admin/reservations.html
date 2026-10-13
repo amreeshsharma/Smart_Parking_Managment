@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Reservations - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Master Space Reservations</h1>
+            <p class="page-subtitle">Central booking ledger across municipal facilities, driver accounts, and bay allocations</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" id="export-reservations-csv-btn">
+              <i data-lucide="download"></i>
+              <span>Export CSV Ledger</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <!-- Status Tabs -->
+            <div class="tab-nav" id="admin-res-tabs">
+              <button type="button" class="tab-btn active" data-status="All">
+                <span>All Bookings</span>
+                <span class="tab-count" id="count-all">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Upcoming">
+                <span>Upcoming</span>
+                <span class="tab-count" id="count-upcoming">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Active">
+                <span>Active Live</span>
+                <span class="tab-count" id="count-active">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Completed">
+                <span>Completed</span>
+                <span class="tab-count" id="count-completed">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Cancelled">
+                <span>Cancelled</span>
+                <span class="tab-count" id="count-cancelled">0</span>
+              </button>
+            </div>
+
+            <!-- Search Field -->
+            <div class="input-with-icon" style="min-width: 280px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="admin-res-search" class="form-input" placeholder="Search driver, plate, or bay...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservations Master Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Driver Name</th>
+                <th>Vehicle Plate</th>
+                <th>Facility &amp; Bay</th>
+                <th>Schedule Window</th>
+                <th>Tariff Amount</th>
+                <th>Status</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-res-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div class="pagination" id="admin-res-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-reservations.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking History - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Parking History &amp; Dwell Logs</h1>
+            <p class="page-subtitle">Historical records of barrier access, dwell durations, and overstay audit entries</p>
+          </div>
+        </div>
+
+        <!-- Filter Controls Strip -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <!-- Search Filter -->
+            <div class="input-with-icon" style="flex: 1; min-width: 240px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="session-search" class="form-input" placeholder="Search by vehicle, RFID, or facility...">
+            </div>
+
+            <!-- Date Range Filters -->
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <label for="filter-date-from" class="text-xs text-muted font-semibold">From:</label>
+                <input type="date" id="filter-date-from" class="form-input" style="height: 2.25rem; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <label for="filter-date-to" class="text-xs text-muted font-semibold">To:</label>
+                <input type="date" id="filter-date-to" class="form-input" style="height: 2.25rem; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" id="reset-filters-btn">
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sessions Data Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>Vehicle &amp; RFID</th>
+                <th>Facility &amp; Bay</th>
+                <th>Inbound Entry</th>
+                <th>Outbound Exit</th>
+                <th>Dwell Duration</th>
+                <th>Overstay</th>
+                <th style="text-align: right;">Penalty Fine</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+
+          <!-- Pagination Component Container -->
+          <div class="pagination" id="history-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/user-history.js"></script>
+</body>
+</html>

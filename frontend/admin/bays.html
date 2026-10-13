@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Parking Bays - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Parking Bays &amp; Space Inventory</h1>
+            <p class="page-subtitle">Configure spatial parking slots, EV charging hardware tags, and occupancy statuses</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" id="add-bay-btn">
+              <i data-lucide="plus"></i>
+              <span>Add Parking Bay</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls Strip -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; align-items: end;">
+            <!-- Facility Lot Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="filter-lot-select" class="form-label">Facility</label>
+              <select id="filter-lot-select" class="form-select">
+                <option value="All">All Facilities</option>
+              </select>
+            </div>
+
+            <!-- Floor Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="filter-floor-select" class="form-label">Floor Level</label>
+              <select id="filter-floor-select" class="form-select">
+                <option value="All">All Floors</option>
+                <option value="Floor 1">Floor 1</option>
+                <option value="Floor 2">Floor 2 (P2)</option>
+                <option value="Floor 3">Floor 3</option>
+              </select>
+            </div>
+
+            <!-- Bay Type Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="filter-type-select" class="form-label">Classification</label>
+              <select id="filter-type-select" class="form-select">
+                <option value="All">All Types</option>
+                <option value="Regular">Regular</option>
+                <option value="EV">EV Fast Charge</option>
+                <option value="Disabled">Accessible</option>
+                <option value="Compact">Compact</option>
+              </select>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="filter-status-select" class="form-label">Occupancy Status</label>
+              <select id="filter-status-select" class="form-select">
+                <option value="All">All Statuses</option>
+                <option value="Available">Available</option>
+                <option value="Reserved">Reserved</option>
+                <option value="Occupied">Occupied</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bays Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Bay ID</th>
+                <th>Bay Number</th>
+                <th>Facility Lot</th>
+                <th>Floor Level</th>
+                <th>Bay Type</th>
+                <th>Tariff / Rate</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bays-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div class="pagination" id="bays-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Bay Modal -->
+  <div class="modal-backdrop" id="bay-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="bay-modal-title">Configure Parking Bay</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="bay-form" novalidate>
+        <div class="modal-body">
+          <input type="hidden" id="bay-id-input">
+
+          <div id="bay-modal-alert" class="card" style="display:none; padding:0.6rem 0.85rem; border-color:var(--status-occupied-border); background-color:var(--status-occupied-bg); color:var(--status-occupied-text); margin-bottom:1rem; font-size:0.8125rem;"></div>
+
+          <div class="form-group">
+            <label for="bay-lot-input" class="form-label">Facility Lot</label>
+            <select id="bay-lot-input" class="form-select" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bay-number-input" class="form-label">Bay Number (Unique ID)</label>
+            <input type="text" id="bay-number-input" class="form-input font-mono" placeholder="e.g. B-109" required style="text-transform: uppercase;">
+            <div class="form-error" id="bay-number-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="bay-floor-input" class="form-label">Floor Level</label>
+            <select id="bay-floor-input" class="form-select" required>
+              <option value="Floor 1">Floor 1</option>
+              <option value="Floor 2">Floor 2</option>
+              <option value="Floor 3">Floor 3</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bay-type-input" class="form-label">Bay Classification</label>
+            <select id="bay-type-input" class="form-select" required>
+              <option value="Regular">Regular (₹40/hr)</option>
+              <option value="EV">EV Fast Charge (₹60/hr)</option>
+              <option value="Disabled">Accessible (₹20/hr)</option>
+              <option value="Compact">Compact (₹30/hr)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bay-status-input" class="form-label">Occupancy Status</label>
+            <select id="bay-status-input" class="form-select" required>
+              <option value="Available">Available</option>
+              <option value="Reserved">Reserved</option>
+              <option value="Occupied">Occupied</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="bay-submit-btn">Save Bay</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-bays.js"></script>
+</body>
+</html>

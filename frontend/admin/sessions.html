@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Sessions &amp; Dwell Logs - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Live Sessions &amp; Barrier Dwell</h1>
+            <p class="page-subtitle">Real-time gate ingress, RFID tag tracking, active occupancy, and manual departure overrides</p>
+          </div>
+          <div class="page-actions">
+            <span class="telemetry-badge" style="background:#ECFDF5; color:#065F46; border:1px solid #A7F3D0;">
+              <span class="pulse-dot"></span>
+              <span id="live-active-counter">5 Live Sessions</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <div class="tab-nav" id="session-tabs">
+              <button type="button" class="tab-btn active" data-filter="all">
+                <span>All Sessions</span>
+                <span class="tab-count" id="count-sess-all">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-filter="live">
+                <span class="pulse-dot"></span>
+                <span>Active Dwell Only</span>
+                <span class="tab-count" id="count-sess-live">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-filter="overstay">
+                <span>Flagged Overstays</span>
+                <span class="tab-count" id="count-sess-overstay">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-filter="exited">
+                <span>Completed Exits</span>
+                <span class="tab-count" id="count-sess-exited">0</span>
+              </button>
+            </div>
+
+            <div class="input-with-icon" style="min-width: 280px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="admin-session-search" class="form-input" placeholder="Search plate, RFID, driver, bay...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Sessions Master Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>Driver &amp; Vehicle</th>
+                <th>Facility &amp; Bay</th>
+                <th>Inbound Entry</th>
+                <th>Outbound Exit</th>
+                <th>Elapsed Duration</th>
+                <th>Overstay Status</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-sessions-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div class="pagination" id="admin-sessions-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-sessions.js"></script>
+</body>
+</html>

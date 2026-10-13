@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">My Space Bookings</h1>
+            <p class="page-subtitle">Track, settle, and manage upcoming and past parking reservations</p>
+          </div>
+          <div class="page-actions">
+            <a href="find-parking.html" class="btn btn-primary">
+              <i data-lucide="plus"></i>
+              <span>New Reservation</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Filter Controls: Tabs & Search Bar -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <!-- Status Tabs -->
+            <div class="tab-nav" id="status-tabs">
+              <button type="button" class="tab-btn active" data-status="All">
+                <span>All</span>
+                <span class="tab-count" id="count-all">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Upcoming">
+                <span>Upcoming</span>
+                <span class="tab-count" id="count-upcoming">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Active">
+                <span>Active Live</span>
+                <span class="tab-count" id="count-active">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Completed">
+                <span>Completed</span>
+                <span class="tab-count" id="count-completed">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-status="Cancelled">
+                <span>Cancelled</span>
+                <span class="tab-count" id="count-cancelled">0</span>
+              </button>
+            </div>
+
+            <!-- Search Input -->
+            <div class="input-with-icon" style="min-width: 260px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="reservation-search" class="form-input" placeholder="Search plate, bay, or facility...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservations Data Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Facility &amp; Bay</th>
+                <th>Target Vehicle</th>
+                <th>Date &amp; Hours</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reservations-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- View Reservation Details Modal -->
+  <div class="modal-backdrop" id="view-res-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Reservation Telemetry</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="view-res-modal-body" style="padding: 1.5rem;">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settle Payment Modal -->
+  <div class="modal-backdrop" id="pay-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Settle Parking Tariff</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 1.5rem;">
+        <input type="hidden" id="pay-payment-id">
+
+        <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+            <span class="text-sm text-muted">Amount Due:</span>
+            <span style="font-size: 1.75rem; font-weight: 800; color: var(--color-primary); font-family: var(--font-mono);" id="pay-modal-amount">
+              ₹80.00
+            </span>
+          </div>
+          <div style="font-size: 0.8125rem; color: var(--color-text-muted);" id="pay-modal-desc">
+            Reservation Fee for Bay B-101 (2 Hours)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Payment Mode</label>
+          <div class="payment-modes-grid" id="pay-mode-options">
+            <div class="payment-mode-option selected" data-mode="UPI">
+              <i data-lucide="smartphone"></i>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">UPI Direct</div>
+                <div class="text-xs text-muted">GPay, PhonePe, Paytm</div>
+              </div>
+            </div>
+            <div class="payment-mode-option" data-mode="Card">
+              <i data-lucide="credit-card"></i>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Debit / Credit Card</div>
+                <div class="text-xs text-muted">Visa, Mastercard, RuPay</div>
+              </div>
+            </div>
+            <div class="payment-mode-option" data-mode="Net Banking">
+              <i data-lucide="landmark"></i>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Net Banking</div>
+                <div class="text-xs text-muted">All Indian Major Banks</div>
+              </div>
+            </div>
+            <div class="payment-mode-option" data-mode="Cash">
+              <i data-lucide="banknote"></i>
+              <div>
+                <div style="font-weight: 600; font-size: 0.85rem;">Cash Voucher</div>
+                <div class="text-xs text-muted">Settle with Gate Cashier</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="pay-success-state" style="display: none; padding: 1rem; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-md); text-align: center; color: #065F46;">
+          <i data-lucide="check-circle" style="width: 2rem; height: 2rem; margin: 0 auto 0.5rem;"></i>
+          <div style="font-weight: 700;">Payment Successful!</div>
+          <div class="text-xs font-mono" id="pay-success-txn" style="margin-top: 0.25rem;">TXN9810291029</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-btn" id="pay-cancel-btn">Cancel</button>
+        <button class="btn btn-primary" id="confirm-pay-now-btn">
+          <i data-lucide="lock" style="width:14px;height:14px;"></i>
+          <span id="confirm-pay-btn-text">Pay Now</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/user-reservations.js"></script>
+</body>
+</html>
