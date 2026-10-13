@@ -517,8 +517,3 @@ SET FOREIGN_KEY_CHECKS=1;" && mysql -u parksmart_user -pStrongPass@123 parksmart
 ### Port Conflicts
 - If **port 5000** is in use, modify `PORT=5000` in `backend/.env` and adjust `API_BASE_URL` in `frontend/js/config.js`.
 - If **port 5500** is in use, start the frontend server on any other port (e.g., `python3 -m http.server 3000 --directory frontend`) and ensure the origin is listed in `CORS_ORIGINS` in `backend/.env`.
-
----
-
-## 📄 License
-This project was developed for educational and academic submission purposes for the Database Management Systems (DBMS) Course.
