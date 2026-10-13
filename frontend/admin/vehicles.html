@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registered Fleet &amp; RFID Tags - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Registered Fleet &amp; RFID Tags</h1>
+            <p class="page-subtitle">Master database of license plates, linked hardware RFID tags, and vehicle ownership mappings</p>
+          </div>
+        </div>
+
+        <!-- Filter Strip -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <div class="input-with-icon" style="flex: 1; min-width: 280px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="admin-vehicle-search" class="form-input" placeholder="Search plate number, RFID tag, or driver name...">
+            </div>
+            <span class="text-xs text-muted font-mono" id="fleet-count-info">0 Total Vehicles Registered</span>
+          </div>
+        </div>
+
+        <!-- Fleet Master Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Vehicle ID</th>
+                <th>License Plate</th>
+                <th>RFID Barrier Tag</th>
+                <th>Make &amp; Model</th>
+                <th>Color Swatch</th>
+                <th>Driver Owner</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-vehicles-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div class="pagination" id="admin-vehicles-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-vehicles.js"></script>
+</body>
+</html>

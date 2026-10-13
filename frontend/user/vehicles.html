@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Vehicles - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar dynamically injected by ui.js -->
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <!-- Topbar dynamically injected by ui.js -->
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Registered Fleet</h1>
+            <p class="page-subtitle">Manage license plates and RFID tags for automated gate barrier access</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" id="add-vehicle-btn">
+              <i data-lucide="plus"></i>
+              <span>Register New Vehicle</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Vehicle Fleet Grid Container -->
+        <div id="vehicles-grid-container" class="vehicle-grid">
+          <!-- Injected dynamically by user-vehicles.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Vehicle Modal -->
+  <div class="modal-backdrop" id="vehicle-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="vehicle-modal-title">Register Vehicle</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="vehicle-form" novalidate>
+        <div class="modal-body">
+          <input type="hidden" id="vehicle-id-input">
+
+          <!-- Alert error -->
+          <div id="vehicle-modal-alert" class="card" style="display: none; padding: 0.6rem 0.85rem; border-color: var(--status-occupied-border); background-color: var(--status-occupied-bg); color: var(--status-occupied-text); margin-bottom: 1rem; font-size: 0.8125rem;">
+          </div>
+
+          <!-- Vehicle Number -->
+          <div class="form-group">
+            <label for="vehicle-number" class="form-label">
+              <span>License Plate Number</span>
+              <span class="text-xs text-muted">e.g. MP09 CA 1234</span>
+            </label>
+            <input type="text" id="vehicle-number" class="form-input font-mono" placeholder="MP09 AB 1234" required style="text-transform: uppercase;">
+            <div class="form-error" id="vehicle-number-error" style="display: none;"></div>
+          </div>
+
+          <!-- RFID Tag -->
+          <div class="form-group">
+            <label for="rfid-tag" class="form-label">
+              <span>RFID Barrier Tag ID</span>
+              <span class="text-xs text-muted">Format: RFID-IND-XXXX</span>
+            </label>
+            <input type="text" id="rfid-tag" class="form-input font-mono" placeholder="RFID-IND-9011" required style="text-transform: uppercase;">
+            <div class="form-error" id="rfid-tag-error" style="display: none;"></div>
+          </div>
+
+          <!-- Brand / Model -->
+          <div class="form-group">
+            <label for="vehicle-brand" class="form-label">Make &amp; Model</label>
+            <input type="text" id="vehicle-brand" class="form-input" placeholder="e.g. Tata Nexon EV, Hyundai Creta" required>
+            <div class="form-error" id="vehicle-brand-error" style="display: none;"></div>
+          </div>
+
+          <!-- Color Dot Picker -->
+          <div class="form-group">
+            <label class="form-label">Vehicle Color</label>
+            <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;" id="color-picker-container">
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#1E3A8A" checked style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #1E3A8A; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#FFFFFF" style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #FFFFFF; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#DC2626" style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #DC2626; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#0F172A" style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #0F172A; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#059669" style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #059669; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+              <label style="cursor: pointer;">
+                <input type="radio" name="vehicle-color" value="#D97706" style="display: none;">
+                <span class="vehicle-color-dot" style="background-color: #D97706; width: 1.75rem; height: 1.75rem;"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-vehicle-btn">Save Vehicle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/user-vehicles.js"></script>
+</body>
+</html>

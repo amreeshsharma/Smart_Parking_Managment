@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find & Reserve Parking - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Find &amp; Reserve Parking</h1>
+            <p class="page-subtitle">Select facility, pick an available space from spatial floor map, and reserve instantly</p>
+          </div>
+        </div>
+
+        <!-- Step 1: Select Parking Lot Facility -->
+        <section style="margin-bottom: 2.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span class="step-num" style="width:1.75rem;height:1.75rem;font-size:0.75rem;margin-bottom:0;">1</span>
+              <h2 style="font-size: 1.25rem; font-weight: 700;">Step 1: Choose Parking Facility</h2>
+            </div>
+            <span class="text-xs text-muted">3 Municipal &amp; Tech Hubs Available</span>
+          </div>
+
+          <div id="lots-selection-grid" class="lot-select-grid">
+            <!-- Injected dynamically by user-find-parking.js -->
+          </div>
+        </section>
+
+        <!-- Two Column Workspace: Step 2 Bay Grid (Left) + Booking Summary (Right) -->
+        <div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.75rem; align-items: start;" class="find-parking-layout">
+          <!-- Left Column: Spatial Bay Grid -->
+          <section class="card" style="padding: 1.5rem;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="step-num" style="width:1.75rem;height:1.75rem;font-size:0.75rem;margin-bottom:0;">2</span>
+                <div>
+                  <h2 style="font-size: 1.2rem; font-weight: 700;" id="grid-facility-title">Step 2: Interactive Bay Grid</h2>
+                  <p class="text-xs text-muted" id="grid-facility-sub">Click any green Available slot to stage reservation</p>
+                </div>
+              </div>
+
+              <!-- Floor Switcher Tabs -->
+              <div class="tab-nav" id="floor-tabs-nav">
+                <button type="button" class="tab-btn active" data-floor="Floor 1">
+                  <span>Floor 1</span>
+                </button>
+                <button type="button" class="tab-btn" data-floor="Floor 2">
+                  <span>Floor 2 (P2)</span>
+                </button>
+                <button type="button" class="tab-btn" data-floor="Floor 3">
+                  <span>Floor 3</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Legend Ribbon -->
+            <div class="legend-ribbon">
+              <div class="legend-items">
+                <div class="legend-item">
+                  <span class="legend-dot" style="background-color: var(--status-available);"></span>
+                  <span style="font-weight: 600; color: var(--color-text-main);">Available</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background-color: var(--status-reserved);"></span>
+                  <span>Reserved</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background-color: var(--status-occupied);"></span>
+                  <span>Occupied</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.4);"></span>
+                  <span style="color: var(--color-primary); font-weight: 700;">Selected</span>
+                </div>
+              </div>
+
+              <div class="legend-items" style="font-size: 0.75rem;">
+                <span class="text-muted">Types:</span>
+                <span class="badge badge-regular"><i data-lucide="car" style="width:12px;height:12px;"></i> Regular (₹40/h)</span>
+                <span class="badge badge-ev"><i data-lucide="zap" style="width:12px;height:12px;"></i> EV Fast (₹60/h)</span>
+                <span class="badge badge-disabled"><i data-lucide="accessibility" style="width:12px;height:12px;"></i> Accessible (₹20/h)</span>
+                <span class="badge badge-compact"><i data-lucide="minimize-2" style="width:12px;height:12px;"></i> Compact (₹30/h)</span>
+              </div>
+            </div>
+
+            <!-- Spatial Bay Map Canvas -->
+            <div class="bay-map-container">
+              <!-- Top Driving Lane Indicator -->
+              <div class="drive-lane">
+                <div style="display: flex; align-items: center; gap: 0.35rem; color: var(--status-available-text);">
+                  <i data-lucide="arrow-down" style="width:14px;height:14px;"></i>
+                  <span>INBOUND ENTRY LANE &bull; ACCESS GATE #01</span>
+                </div>
+                <div>SECTOR NORTH</div>
+                <span class="badge badge-available" style="font-size:0.65rem;">TELEMETRY ACTIVE</span>
+              </div>
+
+              <!-- Sector A Grid (Bays 1-4) -->
+              <div id="bay-grid-sector-a" class="bay-grid" style="margin-bottom: 1rem;">
+                <!-- Injected dynamically -->
+              </div>
+
+              <!-- Mid Circulation Lane -->
+              <div class="drive-lane" style="background: #E2E8F0; border-color: #94A3B8;">
+                <div style="display:flex; align-items:center; gap:0.35rem; color:#475569;">
+                  <i data-lucide="arrow-right-left" style="width:14px;height:14px;"></i>
+                  <span>TWO-WAY INTERNAL CIRCULATION AISLE</span>
+                </div>
+                <div>SPEED LIMIT 10 KM/H</div>
+              </div>
+
+              <!-- Sector B Grid (Bays 5-8) -->
+              <div id="bay-grid-sector-b" class="bay-grid">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </section>
+
+          <!-- Right Column: Sticky Booking Summary Panel -->
+          <aside class="booking-summary-card">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.25rem;">Booking Summary</h3>
+            <p class="text-xs text-muted" style="margin-bottom: 1.25rem;">Review selections &amp; confirm slot reservation</p>
+
+            <form id="reservation-form" novalidate>
+              <!-- Selected Space Indicator -->
+              <div style="padding: 0.875rem; background: var(--color-bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); margin-bottom: 1.25rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-subtle); font-weight: 600;">Selected Space</div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.25rem;">
+                  <span id="summary-bay-number" style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary); font-family: var(--font-mono);">
+                    None selected
+                  </span>
+                  <span id="summary-bay-type-badge"></span>
+                </div>
+                <div class="text-xs text-muted" id="summary-lot-name" style="margin-top: 0.25rem;">
+                  Click an available bay on the map
+                </div>
+              </div>
+
+              <!-- Vehicle Dropdown -->
+              <div class="form-group">
+                <label for="select-vehicle" class="form-label">
+                  <span>Target Vehicle</span>
+                  <a href="vehicles.html" class="text-xs text-primary">+ Add New</a>
+                </label>
+                <select id="select-vehicle" class="form-select font-mono" required>
+                  <option value="">-- Choose registered vehicle --</option>
+                </select>
+                <div class="form-error" id="vehicle-select-error" style="display: none;"></div>
+              </div>
+
+              <!-- Date Picker -->
+              <div class="form-group">
+                <label for="booking-date" class="form-label">Reservation Date</label>
+                <input type="date" id="booking-date" class="form-input" required>
+                <div class="form-error" id="date-select-error" style="display: none;"></div>
+              </div>
+
+              <!-- Time Window (Start & End) -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div class="form-group">
+                  <label for="start-time" class="form-label">Start Time</label>
+                  <input type="time" id="start-time" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label for="end-time" class="form-label">End Time</label>
+                  <input type="time" id="end-time" class="form-input" required>
+                </div>
+              </div>
+              <div class="form-error" id="time-window-error" style="display: none; margin-bottom: 1rem;"></div>
+
+              <!-- Live Estimated Cost -->
+              <div class="summary-cost-row">
+                <div>
+                  <div style="font-weight: 600; color: var(--color-text-main);">Estimated Fee</div>
+                  <div class="text-xs text-muted" id="summary-duration-text">2 Hours Tariff</div>
+                </div>
+                <div class="summary-cost-val" id="summary-total-cost">₹80.00</div>
+              </div>
+
+              <!-- Payment Mode Selector -->
+              <div class="form-group">
+                <label class="form-label">Prepayment Mode</label>
+                <select id="payment-mode-select" class="form-select">
+                  <option value="UPI">UPI (Google Pay, PhonePe, Paytm)</option>
+                  <option value="Card">Credit / Debit Card</option>
+                  <option value="Net Banking">Net Banking</option>
+                  <option value="Cash">Cash at Exit Gate</option>
+                </select>
+              </div>
+
+              <div style="margin-bottom: 1.25rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; cursor: pointer;">
+                  <input type="checkbox" id="autopay-check" checked style="accent-color: var(--color-primary); width: 16px; height: 16px;">
+                  <span class="text-muted">Instant Prepaid Confirmation</span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="confirm-reservation-btn" style="width: 100%; height: 2.75rem;" disabled>
+                <span>Confirm Reservation</span>
+                <i data-lucide="check"></i>
+              </button>
+            </form>
+          </aside>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Confirmation Modal -->
+  <div class="modal-backdrop" id="booking-success-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: var(--status-available-text); display: flex; align-items: center; gap: 0.5rem;">
+          <i data-lucide="check-circle" style="color: var(--status-available);"></i>
+          <span>Reservation Confirmed!</span>
+        </h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 1.75rem;">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-subtle); font-weight: 700;">Reserved Space</div>
+          <div style="font-size: 2.25rem; font-weight: 800; color: var(--color-primary); font-family: var(--font-mono);" id="modal-success-bay">
+            Bay B-101
+          </div>
+          <p class="text-sm text-muted" id="modal-success-lot">City Center Mall &bull; Floor 1</p>
+        </div>
+
+        <div style="background: var(--color-bg-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-muted">Vehicle:</span>
+            <strong id="modal-success-vehicle">MP09 CA 1234</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-muted">Booking Schedule:</span>
+            <strong id="modal-success-schedule">14 Oct 2026, 10:00 AM - 12:00 PM</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-muted">Prepaid Tariff:</span>
+            <strong id="modal-success-fee" style="color: var(--color-primary);">₹80.00</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-muted">Transaction ID:</span>
+            <span class="font-mono text-xs" id="modal-success-txn">TXN9028192819</span>
+          </div>
+        </div>
+
+        <p class="text-xs text-muted" style="margin-top: 1rem; text-align: center;">
+          Inbound boom barriers will automatically recognize your vehicle's RFID tag on arrival.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <a href="reservations.html" class="btn btn-secondary">My Bookings</a>
+        <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/user-find-parking.js"></script>
+</body>
+</html>

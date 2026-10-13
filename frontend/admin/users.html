@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage User Accounts - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Accounts &amp; Access Roles</h1>
+            <p class="page-subtitle">Manage driver credentials, administrator authorizations, and registered fleet counts</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" id="add-user-btn">
+              <i data-lucide="user-plus"></i>
+              <span>Create Account</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Strip -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <div class="tab-nav" id="user-role-tabs">
+              <button type="button" class="tab-btn active" data-role="All">
+                <span>All Accounts</span>
+                <span class="tab-count" id="count-users-all">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-role="User">
+                <span>Drivers</span>
+                <span class="tab-count" id="count-users-user">0</span>
+              </button>
+              <button type="button" class="tab-btn" data-role="Admin">
+                <span>Administrators</span>
+                <span class="tab-count" id="count-users-admin">0</span>
+              </button>
+            </div>
+
+            <div class="input-with-icon" style="min-width: 280px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="admin-user-search" class="form-input" placeholder="Search name, email, or phone...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Master Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+                <th>System Role</th>
+                <th>Vehicles Linked</th>
+                <th>Total Bookings</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div class="pagination" id="admin-users-pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit User Modal -->
+  <div class="modal-backdrop" id="user-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="user-modal-title">Create Account</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="admin-user-form" novalidate>
+        <div class="modal-body">
+          <input type="hidden" id="admin-user-id-input">
+
+          <div id="user-modal-alert" class="card" style="display:none; padding:0.6rem 0.85rem; border-color:var(--status-occupied-border); background-color:var(--status-occupied-bg); color:var(--status-occupied-text); margin-bottom:1rem; font-size:0.8125rem;"></div>
+
+          <div class="form-group">
+            <label for="admin-user-name" class="form-label">Full Name</label>
+            <input type="text" id="admin-user-name" class="form-input" placeholder="e.g. Rahul Sharma" required>
+            <div class="form-error" id="admin-user-name-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="admin-user-email" class="form-label">Email Address</label>
+            <input type="email" id="admin-user-email" class="form-input" placeholder="name@domain.com" required>
+            <div class="form-error" id="admin-user-email-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="admin-user-phone" class="form-label">Phone Number (10 digits)</label>
+            <input type="tel" id="admin-user-phone" class="form-input" placeholder="9876543210" maxlength="10" required>
+            <div class="form-error" id="admin-user-phone-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="admin-user-role" class="form-label">Portal Authorization Role</label>
+            <select id="admin-user-role" class="form-select" required>
+              <option value="User">Driver (User Portal)</option>
+              <option value="Admin">Facility Administrator (Admin Portal)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="admin-user-submit-btn">Save Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-users.js"></script>
+</body>
+</html>

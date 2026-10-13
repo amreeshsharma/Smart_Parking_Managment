@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Telemetry Dashboard - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js CDN (Allowed for admin analytics) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Facility Telemetry &amp; Operations</h1>
+            <p class="page-subtitle">Real-time municipal capacity monitoring, dwell duration auditing, and financial analytics</p>
+          </div>
+          <div class="page-actions">
+            <a href="sessions.html" class="btn btn-primary">
+              <i data-lucide="radio"></i>
+              <span>Live Inbound Sessions</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 KPI Metrics Strip -->
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <!-- Stat 1: Total Revenue -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Settle Revenue</span>
+              <div class="stat-icon" style="background: #ECFDF5; color: #065F46;">
+                <i data-lucide="wallet"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="kpi-total-revenue">₹0</div>
+            <div class="stat-trend trend-up">
+              <i data-lucide="trending-up" style="width:14px;height:14px;"></i>
+              <span>Reconciled digital payments</span>
+            </div>
+          </div>
+
+          <!-- Stat 2: Occupancy Rate -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Average Occupancy</span>
+              <div class="stat-icon" style="background: #EEF2FF; color: var(--color-primary);">
+                <i data-lucide="percent"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="kpi-occupancy-rate">0%</div>
+            <div class="stat-trend" id="kpi-occupancy-sub">
+              <span>Across 3 municipal facilities</span>
+            </div>
+          </div>
+
+          <!-- Stat 3: Active Sessions -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Live Inbound Dwell</span>
+              <div class="stat-icon" style="background: #EFF6FF; color: #1D4ED8;">
+                <i data-lucide="radio"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="kpi-active-sessions">0</div>
+            <div class="stat-trend">
+              <span class="pulse-dot"></span>
+              <span style="font-weight:600; color:var(--status-available-text);">RFID Barriers active</span>
+            </div>
+          </div>
+
+          <!-- Stat 4: Pending Settlements & Overstays -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Pending Settlements</span>
+              <div class="stat-icon" style="background: #FEF2F2; color: #EF4444;">
+                <i data-lucide="alert-triangle"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="kpi-pending-settlements" style="color: var(--status-occupied);">₹0</div>
+            <div class="stat-trend trend-down" id="kpi-overstay-count">
+              <span>0 flagged overstays</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytical Charts Section (2 Columns) -->
+        <div class="chart-grid">
+          <!-- Chart 1: Facility Capacity vs Occupancy -->
+          <div class="chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Facility Occupancy Distribution</h3>
+                <p class="card-subtitle">Occupied vs available space breakdown by municipal facility</p>
+              </div>
+              <span class="badge badge-regular">Real-Time</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="occupancyBarChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Revenue Trend Line Chart -->
+          <div class="chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Weekly Revenue Trajectory</h3>
+                <p class="card-subtitle">Daily tariff collections across reservation fees &amp; penalties</p>
+              </div>
+              <span class="badge badge-paid">Tariff Growth</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="revenueLineChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Overstay Audit Table -->
+        <div class="card" style="padding: 1.5rem; margin-top: 1.5rem;">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Flagged Overstay Audit Queue</h2>
+              <p class="card-subtitle">Vehicles exceeding reserved departure windows requiring barrier clearance</p>
+            </div>
+            <a href="sessions.html" class="btn btn-secondary btn-sm">Audit Live Sessions</a>
+          </div>
+
+          <div class="table-container" style="border: none; box-shadow: none;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Session ID</th>
+                  <th>Vehicle Plate</th>
+                  <th>Facility &amp; Bay</th>
+                  <th>Overstay Duration</th>
+                  <th>Penalty Fine (@ ₹2/min)</th>
+                  <th>Session State</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="overstays-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-dashboard.js"></script>
+</body>
+</html>

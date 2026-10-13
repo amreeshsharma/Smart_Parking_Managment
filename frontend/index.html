@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParkSmart - Smart Parking Management System</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Sticky Public Header -->
+  <header class="public-header">
+    <div class="public-nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/logo.svg" alt="ParkSmart Logo">
+        <span>ParkSmart</span>
+      </a>
+
+      <nav class="public-nav-links" id="public-nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="public-nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm" id="nav-login-btn">Sign In</a>
+        <a href="register.html" class="btn btn-primary btn-sm" id="nav-register-btn">Get Started</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="landing-hero">
+      <div class="hero-pill">
+        <span class="pulse-dot"></span>
+        <span>DBMS PBL Capstone Edition &bull; MySQL + Node.js Ready</span>
+      </div>
+
+      <h1 class="hero-title">
+        Park smarter.<br>
+        <span>Reserve in seconds.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Eliminate parking friction with real-time bay telemetry, automated RFID access, instant contactless UPI checkout, and comprehensive facility analytics.
+      </p>
+
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-primary btn-lg">
+          <span>Book Parking Now</span>
+          <i data-lucide="arrow-right"></i>
+        </a>
+        <a href="login.html" class="btn btn-secondary btn-lg">
+          <i data-lucide="shield-check"></i>
+          <span>Admin Portal</span>
+        </a>
+      </div>
+
+      <!-- CSS/HTML Dashboard Mockup -->
+      <div class="hero-mockup-wrapper">
+        <div class="hero-mockup">
+          <div class="mockup-bar">
+            <div class="mockup-dots">
+              <span class="mockup-dot mockup-dot-red"></span>
+              <span class="mockup-dot mockup-dot-yellow"></span>
+              <span class="mockup-dot mockup-dot-green"></span>
+            </div>
+            <div class="mockup-url">parksmart.terminal.cloud/telemetry/live-bay</div>
+          </div>
+          <div class="mockup-content">
+            <!-- Mockup Card 1 -->
+            <div class="card" style="padding: 1.25rem;">
+              <div class="card-header" style="margin-bottom:0.75rem;">
+                <span class="stat-label">Live Occupancy</span>
+                <span class="badge badge-available">Online</span>
+              </div>
+              <div class="stat-value" style="font-size: 2rem;">78.4%</div>
+              <p class="text-sm text-muted" style="margin-top:0.25rem;">56 of 72 bays filled across 3 facilities</p>
+              <div class="lot-progress-bar" style="margin-top:0.75rem;">
+                <div class="lot-progress-fill" style="width: 78.4%;"></div>
+              </div>
+            </div>
+
+            <!-- Mockup Card 2 -->
+            <div class="card" style="padding: 1.25rem;">
+              <div class="card-header" style="margin-bottom:0.75rem;">
+                <span class="stat-label">Access Gate #01</span>
+                <span class="badge badge-active">LPR Matched</span>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 1.35rem; font-weight: 800; color: #1E293B;">MP09 CA 1234</div>
+              <p class="text-xs text-muted" style="margin-top:0.25rem;">Tata Nexon EV &bull; RFID #RF-9011</p>
+              <div style="margin-top:0.75rem; display: flex; justify-content: space-between; font-size: 0.75rem;">
+                <span class="text-muted">Assigned Bay:</span>
+                <strong style="color: var(--color-primary);">Bay B-101 (EV Fast)</strong>
+              </div>
+            </div>
+
+            <!-- Mockup Card 3 -->
+            <div class="card" style="padding: 1.25rem;">
+              <div class="card-header" style="margin-bottom:0.75rem;">
+                <span class="stat-label">Elapsed Session</span>
+                <span class="badge badge-paid">Prepaid</span>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--color-primary);" id="mockup-timer">
+                02h : 18m : 45s
+              </div>
+              <p class="text-xs text-muted" style="margin-top:0.25rem;">Tariff: ₹60 / hr &bull; No Overstay</p>
+              <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
+                <span class="badge badge-ev">EV 150kW</span>
+                <span class="badge badge-available">Gate Pass Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS STRIP -->
+    <section class="stats-strip">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-strip-val">&lt; 3s</div>
+          <div class="stat-strip-label">Barrier Lift Speed</div>
+          <div class="stat-strip-sub">Automated RFID tag scanning</div>
+        </div>
+        <div>
+          <div class="stat-strip-val">99.8%</div>
+          <div class="stat-strip-label">Sensor Accuracy</div>
+          <div class="stat-strip-sub">Dual radar &amp; camera verification</div>
+        </div>
+        <div>
+          <div class="stat-strip-val">100%</div>
+          <div class="stat-strip-label">Digital Reconciliation</div>
+          <div class="stat-strip-sub">Automated penalty &amp; payment audit</div>
+        </div>
+        <div>
+          <div class="stat-strip-val">24 / 7</div>
+          <div class="stat-strip-label">Real-Time Telemetry</div>
+          <div class="stat-strip-sub">Sub-second bay availability updates</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="landing-section" id="features">
+      <span class="section-tag">Key Capabilities</span>
+      <h2 class="section-heading">Engineered for Urban Congestion</h2>
+      <p class="section-desc">
+        A unified parking architecture designed to prevent traffic bottlenecks, guarantee space reservations, and simplify facility operations.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="radio"></i>
+          </div>
+          <h3 class="feature-title">Real-Time Bay Telemetry</h3>
+          <p class="feature-text">
+            Track vacant, reserved, and occupied parking slots dynamically on visual floor maps with zero guesswork.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="nfc"></i>
+          </div>
+          <h3 class="feature-title">RFID Barrier Automation</h3>
+          <p class="feature-text">
+            Sensors instantly identify your vehicle's RFID tag on inbound approach and trigger automated boom barrier entry.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="zap"></i>
+          </div>
+          <h3 class="feature-title">EV &amp; Accessible Bay Priority</h3>
+          <p class="feature-text">
+            Filter specifically for EV fast chargers, disabled accessible slots, and compact vehicle bays with differentiated pricing.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="credit-card"></i>
+          </div>
+          <h3 class="feature-title">UPI &amp; Digital Payments</h3>
+          <p class="feature-text">
+            Pay reservation fees and settle overstay fines effortlessly via UPI, cards, net banking, or cash verification.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="clock-alert"></i>
+          </div>
+          <h3 class="feature-title">Automatic Overstay Calculation</h3>
+          <p class="feature-text">
+            Business rules calculate elapsed minutes beyond reserved schedules and dynamically bill ₹2/minute overstay penalties.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i data-lucide="bar-chart-3"></i>
+          </div>
+          <h3 class="feature-title">Admin Telemetry Dashboard</h3>
+          <p class="feature-text">
+            Comprehensive facility charts powered by Chart.js displaying capacity ratios, live revenue, and audit trails.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="landing-section" id="how-it-works" style="background-color: var(--color-bg-white); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+      <span class="section-tag">Frictionless Workflow</span>
+      <h2 class="section-heading">How ParkSmart Works</h2>
+      <p class="section-desc">
+        From pre-booking your slot to contactless exit in 4 intuitive steps.
+      </p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3 class="feature-title">Locate &amp; Select</h3>
+          <p class="feature-text">
+            Pick your preferred facility (e.g. City Center Mall) and select an available bay on the interactive floor canvas.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3 class="feature-title">Confirm &amp; Pay</h3>
+          <p class="feature-text">
+            Select your registered vehicle, time window, and confirm booking with automated rate calculation.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3 class="feature-title">Drive In with RFID</h3>
+          <p class="feature-text">
+            North or South gate overhead sensors match your RFID tag, lifting barriers without paper ticket issuance.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3 class="feature-title">Seamless Departure</h3>
+          <p class="feature-text">
+            Exit seamlessly. Live session timers register departure time and generate your digital invoice instantly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING TIERS -->
+    <section class="landing-section" id="pricing">
+      <span class="section-tag">Transparent Tariffs</span>
+      <h2 class="section-heading">Simple, Predictable Pricing</h2>
+      <p class="section-desc">
+        Competitive rates tailored for short visits, daily office commutes, or campus fleet management.
+      </p>
+
+      <div class="pricing-grid">
+        <!-- Tier 1 -->
+        <div class="pricing-card">
+          <h3 class="card-title">Hourly Flexibility</h3>
+          <p class="text-sm text-muted">Ideal for shopping, dining and quick transit stops</p>
+          <div class="pricing-price">₹40 <span>/ hour</span></div>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i> <span>Regular slots @ ₹40/hr</span></li>
+            <li><i data-lucide="check"></i> <span>EV Fast Charger @ ₹60/hr</span></li>
+            <li><i data-lucide="check"></i> <span>Compact bays @ ₹30/hr</span></li>
+            <li><i data-lucide="check"></i> <span>Real-time mobile gate pass</span></li>
+          </ul>
+          <a href="register.html" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Popular Choice</div>
+          <h3 class="card-title">Daily Commuter Pass</h3>
+          <p class="text-sm text-muted">Optimized for daily office workers and full-day parking</p>
+          <div class="pricing-price">₹299 <span>/ day</span></div>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i> <span>Full day unlimited access</span></li>
+            <li><i data-lucide="check"></i> <span>Guaranteed reserved bay allocation</span></li>
+            <li><i data-lucide="check"></i> <span>Priority fast barrier lane</span></li>
+            <li><i data-lucide="check"></i> <span>Grace period on departure delays</span></li>
+          </ul>
+          <a href="register.html" class="btn btn-primary" style="width: 100%;">Select Daily Pass</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="pricing-card">
+          <h3 class="card-title">Monthly Enterprise</h3>
+          <p class="text-sm text-muted">Dedicated spaces for tech park and corporate campuses</p>
+          <div class="pricing-price">₹3,499 <span>/ month</span></div>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i> <span>Designated named bay placement</span></li>
+            <li><i data-lucide="check"></i> <span>Multi-vehicle registration (up to 3)</span></li>
+            <li><i data-lucide="check"></i> <span>Monthly tax invoice reconciliation</span></li>
+            <li><i data-lucide="check"></i> <span>24/7 dedicated support concierge</span></li>
+          </ul>
+          <a href="register.html" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA BANNER -->
+    <div class="cta-banner" id="contact">
+      <h2>Ready to eliminate parking headaches?</h2>
+      <p>
+        Experience smart, automated parking today. Test the demo driver portal or explore facility administrative controls in seconds.
+      </p>
+      <div style="display:flex; justify-content:center; gap: 1rem; flex-wrap: wrap;">
+        <a href="register.html" class="btn btn-secondary btn-lg">Create Free Driver Account</a>
+        <a href="login.html" class="btn btn-primary btn-lg" style="background:#FFFFFF; color:#4F46E5; border-color:#FFFFFF;">
+          <span>Explore Demo Login</span>
+          <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- PUBLIC FOOTER -->
+  <footer class="public-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo" style="color:#FFFFFF;">
+          <img src="assets/logo.svg" alt="ParkSmart Logo">
+          <span>ParkSmart</span>
+        </a>
+        <p>
+          Next-generation IoT &amp; DBMS Smart Parking Management System. Built with clean HTML5, CSS3, and ES6 JavaScript.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How it Works</a></li>
+          <li><a href="#pricing">Tariffs &amp; Pricing</a></li>
+          <li><a href="login.html">Driver Sign In</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Demo Accounts</h4>
+        <ul>
+          <li><a href="login.html">User: user@parksmart.com</a></li>
+          <li><a href="login.html">Admin: admin@parksmart.com</a></li>
+          <li><a href="login.html">Password: 123456</a></li>
+          <li><a href="login.html">Role Switcher</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Project Architecture</h4>
+        <ul>
+          <li><a href="#">MySQL Relational Model</a></li>
+          <li><a href="#">Node.js / Express API</a></li>
+          <li><a href="#">Clean Architecture</a></li>
+          <li><a href="#">DBMS PBL 2026</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 ParkSmart Technologies. Academic Project Edition. All rights reserved.</div>
+      <div>Designed with Precision &bull; Inter Typography &bull; Clean Vanilla Architecture</div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/pages/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Parking Facilities - ParkSmart Admin</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout admin-layout">
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Municipal Parking Facilities</h1>
+            <p class="page-subtitle">Configure multi-level lots, capacity envelopes, and operational gate schedules</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" id="add-lot-btn">
+              <i data-lucide="plus"></i>
+              <span>Add Facility</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <div class="input-with-icon" style="flex: 1; min-width: 280px;">
+              <span class="input-icon"><i data-lucide="search"></i></span>
+              <input type="text" id="lot-search" class="form-input" placeholder="Search facility name or location...">
+            </div>
+            <span class="text-xs text-muted font-mono" id="lot-count-info">3 Facilities Active</span>
+          </div>
+        </div>
+
+        <!-- Facilities Table -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Lot ID</th>
+                <th>Facility Name</th>
+                <th>Location Address</th>
+                <th>Total Bays</th>
+                <th>Occupancy Ratio</th>
+                <th>Operating Hours</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="lots-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Lot Modal -->
+  <div class="modal-backdrop" id="lot-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="lot-modal-title">Create Parking Facility</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="lot-form" novalidate>
+        <div class="modal-body">
+          <input type="hidden" id="lot-id-input">
+
+          <div id="lot-modal-alert" class="card" style="display:none; padding:0.6rem 0.85rem; border-color:var(--status-occupied-border); background-color:var(--status-occupied-bg); color:var(--status-occupied-text); margin-bottom:1rem; font-size:0.8125rem;"></div>
+
+          <div class="form-group">
+            <label for="lot-name-input" class="form-label">Facility Name</label>
+            <input type="text" id="lot-name-input" class="form-input" placeholder="e.g. City Center Mall Facility" required>
+            <div class="form-error" id="lot-name-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="lot-location-input" class="form-label">Location / Address</label>
+            <input type="text" id="lot-location-input" class="form-input" placeholder="e.g. MG Road, Commercial Zone, Indore" required>
+            <div class="form-error" id="lot-location-error" style="display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="lot-bays-input" class="form-label">Total Provisioned Bays</label>
+            <input type="number" id="lot-bays-input" class="form-input" min="6" max="200" value="24" required>
+            <div class="form-error" id="lot-bays-error" style="display: none;"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label for="lot-open-input" class="form-label">Open Time</label>
+              <input type="time" id="lot-open-input" class="form-input" value="06:00" required>
+            </div>
+            <div class="form-group">
+              <label for="lot-close-input" class="form-label">Close Time</label>
+              <input type="time" id="lot-close-input" class="form-input" value="23:00" required>
+            </div>
+          </div>
+          <div class="form-error" id="lot-hours-error" style="display: none; margin-bottom: 0.75rem;"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="lot-submit-btn">Save Facility</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/admin-lots.js"></script>
+</body>
+</html>

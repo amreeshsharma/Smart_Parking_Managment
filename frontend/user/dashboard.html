@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Dashboard - ParkSmart</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar dynamically injected by ui.js -->
+    <div id="app-sidebar-container"></div>
+
+    <div class="app-main">
+      <!-- Topbar dynamically injected by ui.js -->
+      <div id="app-topbar-container"></div>
+
+      <div class="content-body">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title" id="welcome-title">Welcome back, Driver</h1>
+            <p class="page-subtitle">Real-time telemetry, space reservations, and active session telemetry</p>
+          </div>
+          <div class="page-actions">
+            <a href="find-parking.html" class="btn btn-primary">
+              <i data-lucide="plus-circle"></i>
+              <span>Reserve a Bay</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Stat Cards Grid -->
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <!-- Stat 1: Active Sessions -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Active Session</span>
+              <div class="stat-icon" style="background:#ECFDF5; color:#065F46;">
+                <i data-lucide="radio"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="stat-active-sessions">0</div>
+            <div class="stat-trend" id="stat-active-sub">No live parking session</div>
+          </div>
+
+          <!-- Stat 2: Upcoming Bookings -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Scheduled Bookings</span>
+              <div class="stat-icon">
+                <i data-lucide="calendar"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="stat-upcoming-bookings">0</div>
+            <div class="stat-trend trend-up">
+              <i data-lucide="check-circle" style="width:14px;height:14px;"></i>
+              <span>Ready for entry</span>
+            </div>
+          </div>
+
+          <!-- Stat 3: Registered Fleet -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Registered Fleet</span>
+              <div class="stat-icon" style="background:#EFF6FF; color:#1D4ED8;">
+                <i data-lucide="car"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="stat-vehicles-count">0</div>
+            <div class="stat-trend">
+              <a href="vehicles.html" class="text-primary font-semibold" style="font-size:0.75rem;">Manage vehicles &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Stat 4: Total Spent -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Parking Spent</span>
+              <div class="stat-icon" style="background:#FEF3C7; color:#B45309;">
+                <i data-lucide="wallet"></i>
+              </div>
+            </div>
+            <div class="stat-value" id="stat-total-spent">₹0</div>
+            <div class="stat-trend">
+              <span class="text-muted">Across all completed visits</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Midsection: Active Session Telemetry Card -->
+        <div id="active-session-container">
+          <!-- Injected dynamically by user-dashboard.js -->
+        </div>
+
+        <!-- Bottom Grid: Upcoming Reservations (Left 8 cols) & Recent Payments (Right 4 cols) -->
+        <div style="display: grid; grid-template-columns: 2fr 1.2fr; gap: 1.5rem;" class="dashboard-tables-grid">
+          <!-- Left: Upcoming Reservations -->
+          <div class="card" style="padding: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Upcoming Reservations</h2>
+                <p class="card-subtitle">Your reserved parking slots ready for arrival</p>
+              </div>
+              <a href="reservations.html" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+
+            <div class="table-container" style="border: none; box-shadow: none;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Facility &amp; Bay</th>
+                    <th>Vehicle</th>
+                    <th>Date &amp; Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="upcoming-reservations-tbody">
+                  <!-- Injected dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right: Recent Payments & Receipts -->
+          <div class="card" style="padding: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Recent Transactions</h2>
+                <p class="card-subtitle">Reservation fees &amp; penalty receipts</p>
+              </div>
+              <a href="payments.html" class="btn btn-secondary btn-sm">All Payments</a>
+            </div>
+
+            <div id="recent-payments-list" style="display: flex; flex-direction: column; gap: 0.875rem;">
+              <!-- Injected dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Gate Pass QR Modal -->
+  <div class="modal-backdrop" id="gate-pass-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Access Gate Pass</h3>
+        <button class="btn-icon modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 2rem 1.5rem;">
+        <div style="width: 180px; height: 180px; margin: 0 auto 1.5rem; background: #FFFFFF; border: 2px dashed var(--color-border); border-radius: var(--radius-lg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem;">
+          <!-- SVG QR Code Simulation -->
+          <svg viewBox="0 0 100 100" width="140" height="140">
+            <rect width="100" height="100" fill="#FFFFFF"/>
+            <!-- Corner marker 1 -->
+            <rect x="5" y="5" width="25" height="25" fill="#0F172A"/>
+            <rect x="10" y="10" width="15" height="15" fill="#FFFFFF"/>
+            <rect x="13" y="13" width="9" height="9" fill="#0F172A"/>
+            <!-- Corner marker 2 -->
+            <rect x="70" y="5" width="25" height="25" fill="#0F172A"/>
+            <rect x="75" y="10" width="15" height="15" fill="#FFFFFF"/>
+            <rect x="78" y="13" width="9" height="9" fill="#0F172A"/>
+            <!-- Corner marker 3 -->
+            <rect x="5" y="70" width="25" height="25" fill="#0F172A"/>
+            <rect x="10" y="75" width="15" height="15" fill="#FFFFFF"/>
+            <rect x="13" y="78" width="9" height="9" fill="#0F172A"/>
+            <!-- Random bits -->
+            <rect x="35" y="10" width="8" height="8" fill="#4F46E5"/>
+            <rect x="50" y="15" width="8" height="8" fill="#0F172A"/>
+            <rect x="35" y="35" width="30" height="30" fill="#0F172A" rx="4"/>
+            <rect x="42" y="42" width="16" height="16" fill="#FFFFFF"/>
+            <circle cx="50" cy="50" r="4" fill="#4F46E5"/>
+            <rect x="75" y="45" width="8" height="8" fill="#0F172A"/>
+            <rect x="40" y="75" width="8" height="8" fill="#0F172A"/>
+            <rect x="55" y="80" width="8" height="8" fill="#4F46E5"/>
+            <rect x="75" y="75" width="12" height="12" fill="#0F172A"/>
+          </svg>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: var(--color-text-main);" id="modal-qr-plate">MP09 CA 1234</div>
+        <p class="text-sm text-muted" style="margin-top: 0.25rem;" id="modal-qr-sub">Scan at Optical Scanner if RFID Antenna is obstructed</p>
+        <div style="margin-top: 1rem; padding: 0.75rem; background: var(--color-bg-surface); border-radius: var(--radius-md); font-size: 0.8125rem;">
+          <span>Active RFID Token: <strong id="modal-qr-rfid">RFID-IND-9011</strong></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close-btn">Close Pass</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/user-dashboard.js"></script>
+</body>
+</html>
