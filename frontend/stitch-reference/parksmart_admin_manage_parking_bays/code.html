@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-fixed": "#e2dfff", "background": "#faf8ff", "surface-tint": "#4d44e3", "on-background": "#131b2e", "surface-dim": "#d2d9f4", "on-secondary-fixed": "#0b1c30", "tertiary": "#7e3000", "secondary": "#505f76", "inverse-primary": "#c3c0ff", "error": "#ba1a1a", "primary": "#3525cd", "outline": "#777587", "surface-variant": "#dae2fd", "on-primary-container": "#dad7ff", "on-primary-fixed": "#0f0069", "surface-container-high": "#e2e7ff", "secondary-container": "#d0e1fb", "surface-container-highest": "#dae2fd", "primary-fixed-dim": "#c3c0ff", "tertiary-fixed-dim": "#ffb695", "on-primary": "#ffffff", "on-secondary": "#ffffff", "inverse-on-surface": "#eef0ff", "on-surface": "#131b2e", "on-secondary-container": "#54647a", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed-variant": "#3323cc", "secondary-fixed-dim": "#b7c8e1", "primary-container": "#4f46e5", "surface-container-low": "#f2f3ff", "on-tertiary-fixed": "#351000", "on-tertiary-container": "#ffd2be", "on-error-container": "#93000a", "surface-bright": "#faf8ff", "outline-variant": "#c7c4d8", "tertiary-fixed": "#ffdbcc", "error-container": "#ffdad6", "tertiary-container": "#a44100", "surface-container": "#eaedff", "on-secondary-fixed-variant": "#38485d", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "surface": "#faf8ff", "secondary-fixed": "#d3e4fe", "on-surface-variant": "#464555", "inverse-surface": "#283044" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.5rem", "margin": "2rem", "space-xs": "0.25rem", "space-xl": "2rem", "gutter-mobile": "1rem", "margin-mobile": "1rem" }, "fontFamily": { "headline-lg-mobile": [ "Inter" ], "headline-sm": [ "Inter" ], "label-md": [ "Inter" ], "label-sm": [ "Inter" ], "body-lg": [ "Inter" ], "label-xs": [ "Inter" ], "body-md": [ "Inter" ], "display": [ "Inter" ], "headline-md": [ "Inter" ], "headline-lg": [ "Inter" ], "body-sm": [ "Inter" ] }, "fontSize": { "headline-lg-mobile": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" } ], "label-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" } ], "label-xs": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "display": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg": [ "30px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="px-space-lg pt-space-lg pb-space-md flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">local_parking</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface tracking-tight font-bold">ParkSmart</span><span class="font-label-xs text-label-xs text-outline-variant uppercase tracking-wider">Enterprise Mobility</span></div></div><div class="mt-space-sm inline-flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-highest/20 text-inverse-on-surface font-label-xs text-label-xs w-max"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span><span>Admin Console</span></div></div><nav class="flex flex-col gap-1 px-space-md mt-space-sm" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-xl shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="parking-lots" href="#"><span class="material-symbols-outlined text-[20px]">location_city</span><span>Parking Lots</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2.5 transition-colors bg-primary-container text-on-primary font-label-md rounded-xl shadow-sm" data-path="parking-bays" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span>Parking Bays</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="reservations" href="#"><span class="material-symbols-outlined text-[20px]">event_available</span><span>Reservations</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="parking-sessions" href="#"><span class="material-symbols-outlined text-[20px]">nest_clock_farsight_analog</span><span>Parking Sessions</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="users" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Users</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="vehicles" href="#"><span class="material-symbols-outlined text-[20px]">directions_car</span><span>Vehicles</span></a></nav></div><div class="px-space-md pb-space-lg"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-error-container hover:bg-error/20 hover:text-on-error transition-colors font-label-md text-label-md" data-path="login" href="#"><span class="material-symbols-outlined text-[20px]">logout</span><span>Logout</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-lg flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search lots, bays, sessions, transactions..." type="search"/></div></div><div class="flex items-center gap-space-lg"><div class="hidden xl:flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-surface-container text-secondary font-label-xs text-label-xs"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-medium text-on-surface">All 14 Gate Barriers Online</span><span class="text-outline">•</span><span class="text-secondary">Latency 12ms</span></div><div class="relative flex items-center"><button aria-label="Notifications" class="w-9 h-9 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span></button><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col text-right"><span class="font-label-sm text-label-sm text-on-surface font-semibold leading-tight">Marcus Vance</span><span class="font-label-xs text-label-xs text-secondary leading-tight">Master Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 min-h-screen bg-background w-full px-space-xl py-space-lg"><div class="flex flex-col w-full">
+<!-- Active Navigation Syncer (Client script helper) -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const activeLink = document.querySelector('aside nav a[data-path="parking-bays"]');
+      if (activeLink) {
+        activeLink.className = "flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md shadow-sm";
+      }
+    });
+  </script>
+<!-- Top View Heading & Operational Telemetry Pill -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col max-w-2xl">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-xs text-label-xs text-primary uppercase tracking-widest font-bold">Stall Provisioning &amp; IoT Mesh</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-xs text-label-xs text-secondary">Node Cluster #NY-04</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Manage Parking Bays</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Granular stall provisioning, sensor calibration, hardware transponder pairing, and real-time bay telemetry.</p>
+</div>
+<!-- Quick Quick-Action & Mesh Stat -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+<span>Mesh Calibrate</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">file_download</span>
+<span>Export Layout</span>
+</button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-container text-on-primary hover:bg-primary shadow-sm hover:shadow-md transition-all font-label-md text-label-md active:scale-95" id="open-add-bay-modal" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add Bay</span>
+</button>
+</div>
+</section>
+<!-- Bays Operational Metric Tiles -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Tile 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Floor 2 (P2) Bays</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="flex items-baseline gap-1.5">
+<span class="font-display text-display text-on-surface font-bold tracking-tight">60</span>
+<span class="font-label-sm text-label-sm text-secondary">Configured</span>
+</div>
+<span class="font-label-xs text-label-xs text-secondary bg-surface-container px-2 py-0.5 rounded-full">Cap. 100%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-3 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Tile 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Real-time Availability</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="flex items-baseline gap-1.5">
+<span class="font-display text-display text-on-surface font-bold tracking-tight">24</span>
+<span class="font-label-sm text-label-sm text-secondary">Open Bays</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface font-medium bg-surface-container-high px-2 py-0.5 rounded-full">40% Vacant</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-3 overflow-hidden flex">
+<div class="bg-primary-container h-1.5" style="width: 40%"></div>
+<div class="bg-secondary h-1.5" style="width: 46%"></div>
+<div class="bg-outline-variant h-1.5" style="width: 14%"></div>
+</div>
+</div>
+<!-- Tile 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Sensor Health</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="flex items-baseline gap-1.5">
+<span class="font-display text-display text-on-surface font-bold tracking-tight">100%</span>
+<span class="font-label-sm text-label-sm text-secondary">Calibrated</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface font-label-xs text-label-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>60 Online</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-3 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Tile 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Active EV Chargers</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<div class="flex items-baseline gap-1.5">
+<span class="font-display text-display text-on-surface font-bold tracking-tight">14/14</span>
+<span class="font-label-sm text-label-sm text-secondary">Armed</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface font-medium bg-surface-container-high px-2 py-0.5 rounded-full">760 kW Peak</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-3 overflow-hidden">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</section>
+<!-- Filter & Provisioning Toolbar Container -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm mb-space-lg flex flex-col gap-space-md">
+<!-- Row 1: Primary Selectors + Search -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-sm items-center">
+<!-- Facility Dropdown -->
+<div class="md:col-span-4 relative">
+<label class="block font-label-xs text-label-xs text-secondary font-semibold uppercase mb-1" for="facility-select">Facility / Parking Lot</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary">apartment</span>
+<select class="w-full h-11 pl-10 pr-9 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer" id="facility-select">
+<option selected="">Metro Central Tower (180 Bays)</option>
+<option>Grand Central Pavilion (320 Bays)</option>
+<option>Downtown Tech Hub (94 Bays)</option>
+<option>Westside Transit Garage (250 Bays)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[20px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Floor / Deck Switcher -->
+<div class="md:col-span-4">
+<label class="block font-label-xs text-label-xs text-secondary font-semibold uppercase mb-1">Deck / Floor Selection</label>
+<div class="flex items-center p-1 bg-surface-container-low rounded-xl gap-1">
+<button class="flex-1 py-1.5 px-2 rounded-lg font-label-xs text-label-xs text-secondary hover:text-on-surface text-center transition-all" type="button">All Floors</button>
+<button class="flex-1 py-1.5 px-2 rounded-lg font-label-xs text-label-xs text-secondary hover:text-on-surface text-center transition-all" type="button">P1</button>
+<button class="flex-1 py-1.5 px-2 rounded-lg font-label-xs text-label-xs bg-surface-container-lowest text-primary font-semibold shadow-xs text-center transition-all" type="button">P2 (Active)</button>
+<button class="flex-1 py-1.5 px-2 rounded-lg font-label-xs text-label-xs text-secondary hover:text-on-surface text-center transition-all" type="button">P3</button>
+</div>
+</div>
+<!-- Quick Search Bar -->
+<div class="md:col-span-4 relative">
+<label class="block font-label-xs text-label-xs text-secondary font-semibold uppercase mb-1" for="bay-search">Search Identifier</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary">search</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all" id="bay-search" placeholder="Search Bay ID, tag, sensor ID..." type="search"/>
+</div>
+</div>
+</div>
+<!-- Row 2: Secondary Category Filter Chips & Status Badges Filter -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-sm pt-2">
+<!-- Bay Type Filter Chips -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-xs text-label-xs text-secondary uppercase font-semibold mr-1">Bay Type:</span>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container text-on-primary font-label-xs text-label-xs font-semibold shadow-xs" type="button">
+<span>All Types</span>
+<span class="bg-primary px-1.5 py-0.2 rounded-full text-[10px]">60</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-secondary hover:text-on-surface font-label-xs text-label-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">directions_car</span>
+<span>Regular (32)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-secondary hover:text-on-surface font-label-xs text-label-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
+<span>EV Fast Charge (14)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-secondary hover:text-on-surface font-label-xs text-label-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">accessible</span>
+<span>Accessible / ADA (8)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-secondary hover:text-on-surface font-label-xs text-label-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">minor_crash</span>
+<span>Compact (6)</span>
+</button>
+</div>
+<!-- Realtime Status Chips -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-xs text-label-xs text-secondary uppercase font-semibold mr-1">Status:</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold" type="button">All (60)</button>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-xs text-label-xs transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Available (24)</span>
+</button>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-xs text-label-xs transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Occupied (28)</span>
+</button>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-xs text-label-xs transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span>Reserved (6)</span>
+</button>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-secondary font-label-xs text-label-xs transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span>Maintenance (2)</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Interactive Data Table Card -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Table Header Info Bar -->
+<div class="px-space-lg py-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Configured Stall Roster</span>
+<span class="font-label-xs text-label-xs text-primary bg-primary-fixed px-2.5 py-0.5 rounded-full font-bold">Floor 2 (P2) Active Map</span>
+</div>
+<div class="flex items-center gap-space-sm text-secondary font-label-xs text-label-xs">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Telemetry refreshing every 5s</span>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-md text-body-md border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-xs text-label-xs uppercase tracking-wider">
+<th class="py-3 px-space-md font-semibold">Bay ID</th>
+<th class="py-3 px-space-md font-semibold">Bay Number</th>
+<th class="py-3 px-space-md font-semibold">Deck Level</th>
+<th class="py-3 px-space-md font-semibold">Bay Type</th>
+<th class="py-3 px-space-md font-semibold">Hardware Sensor</th>
+<th class="py-3 px-space-md font-semibold">Live Status</th>
+<th class="py-3 px-space-md font-semibold">Facility Name</th>
+<th class="py-3 px-space-md font-semibold">Current Occupant / Vehicle</th>
+<th class="py-3 px-space-md font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface">
+<!-- Row 1: Occupied EV -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-201</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-01</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+<span>EV Fast Charge (150kW)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8821</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-error font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>Occupied</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">NY-784-KPL</span>
+<span class="font-label-xs text-label-xs text-secondary">Tesla Model 3 • Connected 48m</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Occupied Regular -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-lowest">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-202</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-02</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">directions_car</span>
+<span>Regular</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8822</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-error font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>Occupied</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">NY-391-JQX</span>
+<span class="font-label-xs text-label-xs text-secondary">BMW i4 • Standard Tariff</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Available Regular -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-203</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-03</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">directions_car</span>
+<span>Regular</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8823</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Available</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">—</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Reserved EV -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-204</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-04</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+<span>EV Fast Charge (150kW)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8824</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-tertiary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Reserved</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">CA-582-WVE</span>
+<span class="font-label-xs text-label-xs text-secondary">Audi Q4 • ETA: 12 mins</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Accessible ADA -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-205</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-05</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">accessible</span>
+<span>Accessible (ADA)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8825</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Available</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">—</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Maintenance Compact -->
+<tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-low/30">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-secondary">BAY-206</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-06</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">minor_crash</span>
+<span>Compact</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8826</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Maintenance</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm italic flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">build</span>
+<span>Sensor recalibration</span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Available Regular -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-3.5 px-space-md font-label-sm text-label-sm font-semibold text-primary">BAY-207</td>
+<td class="py-3.5 px-space-md font-label-md text-label-md font-semibold text-on-surface">Bay B-07</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Floor 2 (P2)</td>
+<td class="py-3.5 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-xs text-label-xs font-medium text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">directions_car</span>
+<span>Regular</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-label-xs text-label-xs font-mono bg-surface-container-high px-2 py-0.5 rounded text-secondary">SENS-IR-8827</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-xs text-label-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Available</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">Metro Central Tower</td>
+<td class="py-3.5 px-space-md text-secondary font-label-sm text-label-sm">—</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Edit Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-primary hover:bg-surface-container transition-colors" title="Calibrate Sensor" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Bay" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Bulk Status Footer -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm text-secondary font-body-sm text-body-sm">
+<span>Showing 1 to 7 of 60 Bays (Floor 2 - P2)</span>
+<span class="text-outline">•</span>
+<div class="flex items-center gap-1">
+<span class="font-medium text-on-surface">Filter:</span>
+<span>Metro Central Tower</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-xs text-label-xs font-semibold" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-secondary font-label-xs text-label-xs font-semibold" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-secondary font-label-xs text-label-xs font-semibold" type="button">3</button>
+<span class="px-1 text-secondary text-xs">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-secondary font-label-xs text-label-xs font-semibold" type="button">9</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Visual Bay Spatial Matrix Preview (Bento Section) -->
+<section class="mt-space-lg bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Floor 2 (P2) Real-time Visual Topology</h3>
+<p class="font-body-sm text-body-sm text-secondary">Active stall mesh layout showing micro-occupancy and fast telemetry status.</p>
+</div>
+<div class="flex items-center gap-space-md text-secondary font-label-xs text-label-xs flex-wrap">
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-surface-container-high"></span><span>Available</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-error-container"></span><span>Occupied</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-tertiary-fixed"></span><span>Reserved</span></div>
+<div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-surface-container-highest"></span><span>Maintenance</span></div>
+</div>
+</div>
+<!-- Interactive Floor Grid Micro-component -->
+<div class="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-10 lg:grid-cols-12 gap-2">
+<!-- B01 Occupied EV -->
+<div class="p-2 rounded-lg bg-error-container text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-01</span>
+<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
+</div>
+<!-- B02 Occupied Regular -->
+<div class="p-2 rounded-lg bg-error-container text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-02</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">directions_car</span>
+</div>
+<!-- B03 Open Regular -->
+<div class="p-2 rounded-lg bg-surface-container-high text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-03</span>
+<span class="material-symbols-outlined text-[14px] text-primary">check</span>
+</div>
+<!-- B04 Reserved EV -->
+<div class="p-2 rounded-lg bg-tertiary-fixed text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-04</span>
+<span class="material-symbols-outlined text-[14px] text-tertiary">bolt</span>
+</div>
+<!-- B05 Open ADA -->
+<div class="p-2 rounded-lg bg-surface-container-high text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-05</span>
+<span class="material-symbols-outlined text-[14px] text-primary">accessible</span>
+</div>
+<!-- B06 Maintenance -->
+<div class="p-2 rounded-lg bg-surface-container-highest text-secondary flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-06</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">build</span>
+</div>
+<!-- B07 Open Regular -->
+<div class="p-2 rounded-lg bg-surface-container-high text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-07</span>
+<span class="material-symbols-outlined text-[14px] text-primary">check</span>
+</div>
+<!-- B08 to B12 Synthetic Bays -->
+<div class="p-2 rounded-lg bg-surface-container-high text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-08</span>
+<span class="material-symbols-outlined text-[14px] text-primary">check</span>
+</div>
+<div class="p-2 rounded-lg bg-error-container text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-09</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">directions_car</span>
+</div>
+<div class="p-2 rounded-lg bg-error-container text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-10</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">directions_car</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-high text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-11</span>
+<span class="material-symbols-outlined text-[14px] text-primary">bolt</span>
+</div>
+<div class="p-2 rounded-lg bg-tertiary-fixed text-on-surface flex flex-col items-center justify-center gap-1 cursor-pointer hover:shadow-sm transition-all text-center">
+<span class="font-label-xs text-label-xs font-bold">B-12</span>
+<span class="material-symbols-outlined text-[14px] text-tertiary">schedule</span>
+</div>
+</div>
+</section>
+<!-- Interactive Modal: Add Bay Dialog -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200" id="add-bay-modal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-xl w-full p-space-lg shadow-xl relative max-h-[942px] overflow-y-auto flex flex-col">
+<!-- Modal Header -->
+<div class="flex items-start justify-between pb-space-sm mb-space-sm">
+<div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-xs text-label-xs uppercase tracking-wide font-bold mb-1">
+<span>Hardware Setup</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Add Parking Bay</h2>
+<p class="font-body-sm text-body-sm text-secondary">Provision stall hardware and telemetry mapping</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" id="close-modal-x" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<form class="flex flex-col gap-space-md" id="add-bay-form" onsubmit="event.preventDefault();">
+<!-- Lot Selection -->
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary" for="modal-facility-select">Select Facility / Lot</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary">apartment</span>
+<select class="w-full h-11 pl-10 pr-9 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20" id="modal-facility-select">
+<option selected="">Metro Central Tower</option>
+<option>Grand Central Pavilion</option>
+<option>Downtown Tech Hub</option>
+<option>Westside Transit Garage</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[20px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Floor & Bay Number (Dual column) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary" for="modal-floor-select">Floor / Deck</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary">layers</span>
+<select class="w-full h-11 pl-10 pr-9 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:ring-2 focus:ring-primary/20" id="modal-floor-select">
+<option>Floor 1 (P1)</option>
+<option selected="">Floor 2 (P2)</option>
+<option>Floor 3 (P3)</option>
+<option>Floor 4 (P4 - Rooftop)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[20px] text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary" for="bay-number-input">Bay Number / Code</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary">tag</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-outline" id="bay-number-input" placeholder="e.g., Bay B-15" required="" type="text"/>
+</div>
+</div>
+</div>
+<!-- Bay Type Selection (Segmented Grid) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary">Bay Type Specification</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+<!-- Regular -->
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="bay_type" type="radio" value="regular"/>
+<div class="p-2.5 rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary flex flex-col items-center justify-center text-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+<span class="font-label-xs text-label-xs font-semibold">Regular</span>
+</div>
+</label>
+<!-- EV -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="bay_type" type="radio" value="ev"/>
+<div class="p-2.5 rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary flex flex-col items-center justify-center text-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span class="font-label-xs text-label-xs font-semibold">EV Fast</span>
+</div>
+</label>
+<!-- Accessible -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="bay_type" type="radio" value="accessible"/>
+<div class="p-2.5 rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary flex flex-col items-center justify-center text-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[20px]">accessible</span>
+<span class="font-label-xs text-label-xs font-semibold">Accessible</span>
+</div>
+</label>
+<!-- Compact -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="bay_type" type="radio" value="compact"/>
+<div class="p-2.5 rounded-xl bg-surface-container-low peer-checked:bg-primary-container peer-checked:text-on-primary flex flex-col items-center justify-center text-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[20px]">minor_crash</span>
+<span class="font-label-xs text-label-xs font-semibold">Compact</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Sensor ID Input -->
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary" for="sensor-id-input">Ultrasonic / Radar Sensor ID</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary">sensors</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-outline font-mono" id="sensor-id-input" placeholder="e.g., SENS-IR-8840" type="text"/>
+</div>
+<span class="font-label-xs text-label-xs text-secondary">Sensor will broadcast heartbeat packet upon activation.</span>
+</div>
+<!-- EV Charging Station Pairing Module -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer" id="ev-pairing-check" type="checkbox"/>
+<label class="font-label-sm text-label-sm font-semibold text-on-surface cursor-pointer" for="ev-pairing-check">EV Charging Station Hardware Pairing</label>
+</div>
+<span class="font-label-xs text-label-xs text-secondary font-mono">OCPP 2.0.1</span>
+</div>
+<div class="flex flex-col gap-1.5 pl-6" id="ev-kilowatt-selector">
+<label class="font-label-xs text-label-xs text-secondary uppercase font-semibold">Charging Output Rating</label>
+<div class="flex items-center gap-2">
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="ev_power" type="radio" value="50kW"/>
+<span class="block py-1.5 px-3 rounded-lg text-center font-label-xs text-label-xs bg-surface-container peer-checked:bg-primary-container peer-checked:text-on-primary transition-all">50 kW</span>
+</label>
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="ev_power" type="radio" value="150kW"/>
+<span class="block py-1.5 px-3 rounded-lg text-center font-label-xs text-label-xs bg-surface-container peer-checked:bg-primary-container peer-checked:text-on-primary transition-all">150 kW</span>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="ev_power" type="radio" value="250kW"/>
+<span class="block py-1.5 px-3 rounded-lg text-center font-label-xs text-label-xs bg-surface-container peer-checked:bg-primary-container peer-checked:text-on-primary transition-all">250 kW</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Initial Status Radio -->
+<div class="flex flex-col gap-1">
+<label class="font-label-xs text-label-xs font-semibold uppercase text-secondary">Initial Operational State</label>
+<div class="flex items-center gap-4">
+<label class="inline-flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary/20" name="initial_status" type="radio" value="available"/>
+<span class="font-body-md text-body-md text-on-surface">Available (Live for occupancy)</span>
+</label>
+<label class="inline-flex items-center gap-2 cursor-pointer">
+<input class="text-secondary focus:ring-primary/20" name="initial_status" type="radio" value="maintenance"/>
+<span class="font-body-md text-body-md text-on-surface">Maintenance (Locked)</span>
+</label>
+</div>
+</div>
+<!-- Modal Actions -->
+<div class="flex items-center justify-end gap-space-sm pt-space-sm mt-space-xs">
+<button class="px-5 py-2.5 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md" id="close-modal-btn" type="button">Cancel</button>
+<button class="px-6 py-2.5 rounded-full bg-primary-container text-on-primary hover:bg-primary shadow-sm hover:shadow transition-all font-label-md text-label-md" id="submit-bay-btn" type="submit">Confirm &amp; Create Bay</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Inline Micro-interactions Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = document.getElementById("add-bay-modal");
+      const openBtn = document.getElementById("open-add-bay-modal");
+      const closeBtn = document.getElementById("close-modal-btn");
+      const closeX = document.getElementById("close-modal-x");
+      const addForm = document.getElementById("add-bay-form");
+
+      function openModal() {
+        modal.classList.remove("hidden");
+        setTimeout(() => {
+          modal.classList.remove("opacity-0");
+        }, 10);
+      }
+
+      function closeModal() {
+        modal.classList.add("opacity-0");
+        setTimeout(() => {
+          modal.classList.add("hidden");
+        }, 200);
+      }
+
+      if (openBtn) openBtn.addEventListener("click", openModal);
+      if (closeBtn) closeBtn.addEventListener("click", closeModal);
+      if (closeX) closeX.addEventListener("click", closeModal);
+
+      // Close modal on backdrop click
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeModal();
+      });
+
+      // Simple submit feedback
+      if (addForm) {
+        addForm.addEventListener("submit", function () {
+          const bayNum = document.getElementById("bay-number-input").value;
+          closeModal();
+          // Reset input after submission
+          setTimeout(() => {
+            alert("Bay " + (bayNum || "New Stall") + " provisioned and broadcasted to mesh!");
+          }, 250);
+        });
+      }
+    });
+  </script>
+</div></main></div></body></html>

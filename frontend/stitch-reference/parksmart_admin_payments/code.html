@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-fixed": "#e2dfff", "background": "#faf8ff", "surface-tint": "#4d44e3", "on-background": "#131b2e", "surface-dim": "#d2d9f4", "on-secondary-fixed": "#0b1c30", "tertiary": "#7e3000", "secondary": "#505f76", "inverse-primary": "#c3c0ff", "error": "#ba1a1a", "primary": "#3525cd", "outline": "#777587", "surface-variant": "#dae2fd", "on-primary-container": "#dad7ff", "on-primary-fixed": "#0f0069", "surface-container-high": "#e2e7ff", "secondary-container": "#d0e1fb", "surface-container-highest": "#dae2fd", "primary-fixed-dim": "#c3c0ff", "tertiary-fixed-dim": "#ffb695", "on-primary": "#ffffff", "on-secondary": "#ffffff", "inverse-on-surface": "#eef0ff", "on-surface": "#131b2e", "on-secondary-container": "#54647a", "on-error": "#ffffff", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed-variant": "#3323cc", "secondary-fixed-dim": "#b7c8e1", "primary-container": "#4f46e5", "surface-container-low": "#f2f3ff", "on-tertiary-fixed": "#351000", "on-tertiary-container": "#ffd2be", "on-error-container": "#93000a", "surface-bright": "#faf8ff", "outline-variant": "#c7c4d8", "tertiary-fixed": "#ffdbcc", "error-container": "#ffdad6", "tertiary-container": "#a44100", "surface-container": "#eaedff", "on-secondary-fixed-variant": "#38485d", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "surface": "#faf8ff", "secondary-fixed": "#d3e4fe", "on-surface-variant": "#464555", "inverse-surface": "#283044" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.5rem", "margin": "2rem", "space-xs": "0.25rem", "space-xl": "2rem", "gutter-mobile": "1rem", "margin-mobile": "1rem" }, "fontFamily": { "headline-lg-mobile": [ "Inter" ], "headline-sm": [ "Inter" ], "label-md": [ "Inter" ], "label-sm": [ "Inter" ], "body-lg": [ "Inter" ], "label-xs": [ "Inter" ], "body-md": [ "Inter" ], "display": [ "Inter" ], "headline-md": [ "Inter" ], "headline-lg": [ "Inter" ], "body-sm": [ "Inter" ] }, "fontSize": { "headline-lg-mobile": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" } ], "label-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" } ], "label-xs": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "display": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg": [ "30px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "body-sm": [ "13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="px-space-lg pt-space-lg pb-space-md flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">local_parking</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface tracking-tight font-bold">ParkSmart</span><span class="font-label-xs text-label-xs text-outline-variant uppercase tracking-wider">Enterprise Mobility</span></div></div><div class="mt-space-sm inline-flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-highest/20 text-inverse-on-surface font-label-xs text-label-xs w-max"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span><span>Admin Console</span></div></div><nav class="flex flex-col gap-1 px-space-md mt-space-sm" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-xl shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="parking-lots" href="#"><span class="material-symbols-outlined text-[20px]">location_city</span><span>Parking Lots</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="parking-bays" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span>Parking Bays</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="reservations" href="#"><span class="material-symbols-outlined text-[20px]">event_available</span><span>Reservations</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="parking-sessions" href="#"><span class="material-symbols-outlined text-[20px]">nest_clock_farsight_analog</span><span>Parking Sessions</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2.5 transition-colors bg-primary-container text-on-primary font-label-md rounded-xl shadow-sm" data-path="payments" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Payments</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="users" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Users</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md" data-path="vehicles" href="#"><span class="material-symbols-outlined text-[20px]">directions_car</span><span>Vehicles</span></a></nav></div><div class="px-space-md pb-space-lg"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-error-container hover:bg-error/20 hover:text-on-error transition-colors font-label-md text-label-md" data-path="login" href="#"><span class="material-symbols-outlined text-[20px]">logout</span><span>Logout</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-lg flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search lots, bays, sessions, transactions..." type="search"/></div></div><div class="flex items-center gap-space-lg"><div class="hidden xl:flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-surface-container text-secondary font-label-xs text-label-xs"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-medium text-on-surface">All 14 Gate Barriers Online</span><span class="text-outline">•</span><span class="text-secondary">Latency 12ms</span></div><div class="relative flex items-center"><button aria-label="Notifications" class="w-9 h-9 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span></button><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col text-right"><span class="font-label-sm text-label-sm text-on-surface font-semibold leading-tight">Marcus Vance</span><span class="font-label-xs text-label-xs text-secondary leading-tight">Master Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 min-h-screen bg-background w-full px-space-xl py-space-lg"><div class="flex flex-col w-full">
+<!-- Interactive Navigation State Fixer for Shell -->
+<script>
+    (function() {
+      const activeNav = document.querySelector('nav a[data-path="payments"]');
+      if (activeNav) {
+        document.querySelectorAll('nav a').forEach(el => {
+          el.className = "flex items-center gap-space-sm px-space-md py-2.5 rounded-xl text-outline-variant hover:bg-surface-container-highest/10 hover:text-inverse-on-surface transition-colors font-label-md text-label-md";
+        });
+        activeNav.className = "flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md shadow-sm";
+      }
+    })();
+  </script>
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-xs text-label-xs font-semibold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Live Gateway
+        </span>
+<span class="font-label-xs text-label-xs text-secondary">ISO 20022 Financial Standard Compliant</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Payments &amp; Settlement Ledger</h1>
+<p class="font-body-md text-body-md text-secondary max-w-2xl">
+        Consolidated financial records, gateway settlements, penalty collections, and automated fleet invoicing.
+      </p>
+</div>
+<!-- Right Header Quick Controls -->
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-surface-container-lowest text-secondary shadow-sm hover:bg-surface-container-low transition-colors font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Reconcile Ledger</span>
+</button>
+<button class="inline-flex items-center gap-2 px-5 h-10 rounded-full bg-primary text-on-primary shadow-sm hover:bg-primary-container transition-all hover:shadow font-label-md text-label-md font-semibold" type="button">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Export Financial PDF</span>
+</button>
+</div>
+</div>
+<!-- Top Revenue Metric Cards (4 Bento Grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Card 1: Total Gross -->
+<div class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-secondary font-semibold uppercase tracking-wider">Total Gross Collected</span>
+<span class="font-label-sm text-label-sm text-outline">Today's Transactions</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-display text-display text-on-surface tracking-tight font-bold">$18,450.00</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-sm text-label-sm text-primary font-medium">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-semibold">+14.2%</span>
+<span class="text-secondary font-normal">DoD vs previous day</span>
+</div>
+</div>
+<!-- Ambient Visual Bar -->
+<div class="mt-4 w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Card 2: Base Reservation Fees -->
+<div class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-secondary font-semibold uppercase tracking-wider">Base Reservation Fees</span>
+<span class="font-label-sm text-label-sm text-outline">Slot Allocations &amp; Passes</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">book_online</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-display text-display text-on-surface tracking-tight font-bold">$14,200.00</span>
+</div>
+<div class="mt-2 flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary">Share of Gross:</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-semibold text-on-surface">77% volume</span>
+</div>
+</div>
+<div class="mt-4 w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 77%;"></div>
+</div>
+</div>
+<!-- Card 3: Overstay Penalty Revenue -->
+<div class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-secondary font-semibold uppercase tracking-wider">Overstay Penalties</span>
+<span class="font-label-sm text-label-sm text-outline">Exceeded Threshold Charges</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">timer_off</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-display text-display text-on-surface tracking-tight font-bold">$4,250.00</span>
+</div>
+<div class="mt-2 flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary">Enforcement Share:</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container/40 text-error font-semibold">23% volume</span>
+</div>
+</div>
+<div class="mt-4 w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 23%;"></div>
+</div>
+</div>
+<!-- Card 4: Gateway Settlement Rate -->
+<div class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs text-secondary font-semibold uppercase tracking-wider">Gateway Settlement Rate</span>
+<span class="font-label-sm text-label-sm text-outline">Real-time Automated Clearing</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">sync_saved_locally</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-display text-display text-on-surface tracking-tight font-bold">99.8%</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-on-surface font-medium">Instant auto-cleared</span>
+<span class="text-outline">· 1 dispute hold</span>
+</div>
+</div>
+<div class="mt-4 w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 99.8%;"></div>
+</div>
+</div>
+</div>
+<!-- Filter & Control Toolbar Panel -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg mb-space-lg flex flex-col gap-space-md">
+<!-- Top Row: Tab Segment Filter & Date/Action Controls -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md pb-space-sm">
+<!-- Payment Type Toggle Segment -->
+<div class="flex flex-wrap items-center bg-surface-container-low p-1 rounded-full gap-1 self-start">
+<button class="px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-md text-label-md font-semibold shadow-sm transition-all" type="button">
+          All Types <span class="ml-1.5 px-2 py-0.2 bg-primary/10 text-primary rounded-full text-label-xs font-semibold">412</span>
+</button>
+<button class="px-4 py-1.5 rounded-full text-secondary hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+          Reservation Fees <span class="ml-1 px-1.5 py-0.2 bg-surface-container text-secondary rounded-full text-label-xs">328</span>
+</button>
+<button class="px-4 py-1.5 rounded-full text-secondary hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+          Overstay Penalties <span class="ml-1 px-1.5 py-0.2 bg-surface-container text-secondary rounded-full text-label-xs">84</span>
+</button>
+</div>
+<!-- Date Range Picker & Export Presets -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Date Picker Button -->
+<div class="flex items-center gap-2 px-3.5 h-10 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md hover:bg-surface-container transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-secondary">calendar_today</span>
+<span class="font-medium text-on-surface">Oct 01, 2024 — Oct 24, 2024</span>
+<span class="material-symbols-outlined text-[18px] text-outline">expand_more</span>
+</div>
+<!-- Filter Presets Menu -->
+<button class="inline-flex items-center gap-1.5 px-3.5 h-10 rounded-xl bg-surface-container-low text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Filter Presets</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<!-- Export CSV Button -->
+<button class="inline-flex items-center gap-1.5 px-4 h-10 rounded-full bg-surface-container-lowest text-secondary shadow-sm hover:bg-surface-container-low hover:text-on-surface transition-colors font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export CSV / Ledger</span>
+</button>
+</div>
+</div>
+<!-- Bottom Row: Search and Secondary Dropdowns -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-sm pt-space-xs">
+<!-- Search Input -->
+<div class="md:col-span-6 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" placeholder="Search Payment ID, Reservation ID, Txn Hash, Plate..." type="search"/>
+</div>
+<!-- Status Filter Dropdown -->
+<div class="md:col-span-3 relative">
+<select class="w-full h-11 px-3.5 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-all appearance-none cursor-pointer">
+<option value="">Status: All Statuses</option>
+<option value="cleared">Success / Cleared</option>
+<option value="pending">Pending</option>
+<option value="refunded">Refunded</option>
+<option value="failed">Failed</option>
+</select>
+<span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">expand_more</span>
+</div>
+<!-- Payment Mode Filter Dropdown -->
+<div class="md:col-span-3 relative">
+<select class="w-full h-11 px-3.5 rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-all appearance-none cursor-pointer">
+<option value="">Payment Mode: All Gateways</option>
+<option value="upi">UPI &amp; QR</option>
+<option value="fleet">Corporate Fleet Auto-Debit</option>
+<option value="card">Credit / Debit Card</option>
+<option value="netbanking">Net Banking</option>
+<option value="cash">Cash / Kiosk</option>
+</select>
+<span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Payments Data Table Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Quick Table Bar -->
+<div class="px-space-lg py-3 bg-surface-container-low/40 flex items-center justify-between">
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm text-secondary">
+<span class="font-semibold text-on-surface">Live Ledger Entries</span>
+<span class="text-outline">•</span>
+<span>Auto-refreshing every 30s</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" title="Reload transactions" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" title="Table column options" type="button">
+<span class="material-symbols-outlined text-[18px]">view_column</span>
+</button>
+</div>
+</div>
+<!-- Table Container with Horizontal Scroll -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-low/80 text-secondary font-label-xs text-label-xs uppercase tracking-wider">
+<th class="py-3.5 px-space-lg font-semibold">Payment ID</th>
+<th class="py-3.5 px-space-md font-semibold">Reservation ID</th>
+<th class="py-3.5 px-space-md font-semibold text-right">Amount</th>
+<th class="py-3.5 px-space-md font-semibold">Payment Type</th>
+<th class="py-3.5 px-space-md font-semibold">Payment Mode</th>
+<th class="py-3.5 px-space-md font-semibold">Transaction ID / Hash</th>
+<th class="py-3.5 px-space-md font-semibold">Status</th>
+<th class="py-3.5 px-space-md font-semibold">Date &amp; Time</th>
+<th class="py-3.5 px-space-lg font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1: PAY-89410 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89410</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9420</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$15.50</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-xs text-label-xs font-semibold">
+                Reservation Fee
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">qr_code_scanner</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">UPI (Google Pay)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920194-PS</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">08:42 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: PAY-89409 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89409</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9418</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$18.00</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-xs text-label-xs font-semibold">
+                Overstay Penalty
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">local_shipping</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Fleet Auto-Debit</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920188-FL</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">08:35 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: PAY-89408 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89408</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9415</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$22.00</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-xs text-label-xs font-semibold">
+                Reservation Fee
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">credit_card</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Credit Card (Visa •• 4242)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920172-CC</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">08:14 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: PAY-89407 -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89407</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9411</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$14.00</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-xs text-label-xs font-semibold">
+                Overstay Penalty
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">qr_code_scanner</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">UPI (PhonePe)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920165-PS</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">07:58 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: PAY-89406 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89406</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9402</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$32.00</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-xs text-label-xs font-semibold">
+                Reservation Fee
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">local_shipping</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Fleet Auto-Debit</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920150-FL</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">07:30 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: PAY-89405 (Pending) -->
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89405</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9398</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$10.00</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-xs text-label-xs font-semibold">
+                Overstay Penalty
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">account_balance</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Net Banking (HDFC)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920141-NB</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                Pending
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">07:15 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-tertiary-fixed text-tertiary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Retry
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: PAY-89404 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-4 px-space-lg">
+<span class="font-label-sm text-label-sm font-semibold text-primary">PAY-89404</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-on-surface font-medium hover:text-primary cursor-pointer transition-colors">RES-9388</span>
+</td>
+<td class="py-4 px-space-md text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">$12.50</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-xs text-label-xs font-semibold">
+                Reservation Fee
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[15px]">point_of_sale</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Cash / Kiosk</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="font-body-sm text-body-sm text-secondary font-mono tracking-tight select-all">TXN-884920129-CS</span>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-xs text-label-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                Cleared
+              </span>
+</td>
+<td class="py-4 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-label-xs text-label-xs text-outline">06:45 AM</span>
+</div>
+</td>
+<td class="py-4 px-space-lg text-right">
+<div class="inline-flex items-center gap-1 justify-end">
+<button class="px-2.5 py-1 rounded-lg hover:bg-surface-container text-primary font-label-xs text-label-xs font-semibold transition-colors" type="button">
+                  Receipt
+                </button>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download PDF Invoice" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer with Pagination -->
+<div class="px-space-lg py-space-md bg-surface-container-low/40 flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="font-body-sm text-body-sm text-secondary">
+        Showing <span class="font-semibold text-on-surface">1</span> to <span class="font-semibold text-on-surface">7</span> of <span class="font-semibold text-on-surface">412</span> transactions
+      </div>
+<!-- Pagination Controls -->
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm" type="button">
+          1
+        </button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors" type="button">
+          2
+        </button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors" type="button">
+          3
+        </button>
+<span class="px-1 text-outline font-label-sm">...</span>
+<button class="w-8 h-8 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors" type="button">
+          59
+        </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Reconciliation Ticker Banner -->
+<div class="mt-space-md bg-inverse-surface rounded-xl p-4 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-inverse-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest/20 text-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-semibold text-primary-fixed">Automated Reconciliation Engine</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse"></span>
+</div>
+<p class="font-body-sm text-body-sm text-outline-variant">
+          Batch Ledger <strong class="text-inverse-on-surface font-mono">#BL-491</strong> synced with Chase Commercial Bank &amp; Municipal Treasury • Next settlement cycle in <span class="font-semibold text-inverse-on-surface">02h 18m</span>.
+        </p>
+</div>
+</div>
+<!-- Quick Actions in Banner -->
+<div class="flex items-center gap-space-sm self-end md:self-auto flex-shrink-0">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-highest/10 text-outline-variant font-label-xs text-label-xs">ACH Batch 98.4% Matched</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 text-inverse-on-surface font-label-xs text-label-xs font-semibold transition-colors" type="button">
+        Audit Logs
+      </button>
+</div>
+</div>
+</div></main></div></body></html>
