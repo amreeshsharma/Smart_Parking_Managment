@@ -6,3 +6,5 @@ stitch-reference/
 DEPLOYMENT.md
 DEPLOYMENT_STEPS.md
 COMMANDS.md
+database/sample_data_cloud.sql
+database/schema_cloud.sql
