@@ -13,9 +13,9 @@ import { showToast } from '../ui.js';
 let selectedRole = 'User';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // If already logged in, redirect automatically
+  // If already logged in, redirect automatically unless switching accounts
   const existingUser = getLoggedInUser();
-  if (existingUser) {
+  if (existingUser && existingUser.Role && !window.location.search.includes('switch')) {
     redirectUser(existingUser.Role);
     return;
   }
@@ -152,12 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         const dest = sessionStorage.getItem('redirect_after_login');
+        const userRole = (response.data?.user?.Role || '').toLowerCase();
         if (dest && !dest.includes('login.html')) {
           sessionStorage.removeItem('redirect_after_login');
-          window.location.href = dest;
-        } else {
-          redirectUser(response.data.user.Role);
+          const isDestAdmin = dest.includes('/admin/');
+          const isDestUser = dest.includes('/user/');
+          if ((userRole === 'admin' && !isDestUser) || (userRole !== 'admin' && !isDestAdmin)) {
+            window.location.href = dest;
+            return;
+          }
         }
+        redirectUser(response.data?.user?.Role || 'User');
       }, 500);
 
     } catch (err) {
@@ -171,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function redirectUser(role) {
-    if (role.toLowerCase() === 'admin') {
+    const r = (role || '').toLowerCase();
+    if (r === 'admin') {
       window.location.href = 'admin/dashboard.html';
     } else {
       window.location.href = 'user/dashboard.html';

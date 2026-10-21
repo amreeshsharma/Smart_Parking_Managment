@@ -80,7 +80,15 @@ async function liveFetch(endpoint, method = 'GET', body = null) {
       body: body ? JSON.stringify(body) : null
     });
 
-    const result = await response.json();
+    let result;
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      result = await response.json();
+    } else {
+      const text = await response.text();
+      result = { message: text || `Server responded with status ${response.status}` };
+    }
+
     if (!response.ok) {
       return {
         success: false,
@@ -94,10 +102,18 @@ async function liveFetch(endpoint, method = 'GET', body = null) {
       message: result.message || 'Success'
     };
   } catch (error) {
+    console.error(`[liveFetch] ${method} ${endpoint} failed:`, error);
+    const isConnRefused = error.message && (
+      error.message.includes('Failed to fetch') ||
+      error.message.includes('NetworkError') ||
+      error.message.includes('connection refused')
+    );
     return {
       success: false,
       data: null,
-      message: error.message || 'Network error connecting to backend service.'
+      message: isConnRefused
+        ? `Cannot connect to API server at ${CONFIG.API_BASE_URL}. Ensure the backend is running (run 'npm start' in backend/).`
+        : (error.message || 'Network error connecting to backend service.')
     };
   }
 }
@@ -112,22 +128,40 @@ export async function login(email, password, role = 'User') {
     const db = getMockDB();
     const cleanEmail = (email || '').trim().toLowerCase();
 
-    const user = db.users.find(u =>
+    // Check users first
+    let user = db.users ? db.users.find(u =>
       u.Email.toLowerCase() === cleanEmail &&
-      u.Password === password &&
-      u.Role.toLowerCase() === role.toLowerCase()
-    );
+      u.Password === password
+    ) : null;
+
+    // Check admins if not found in users
+    if (!user && db.admins) {
+      const admin = db.admins.find(a =>
+        a.Email.toLowerCase() === cleanEmail &&
+        a.Password === password
+      );
+      if (admin) {
+        user = {
+          User_ID: admin.Admin_ID,
+          Admin_ID: admin.Admin_ID,
+          Name: admin.Name,
+          Email: admin.Email,
+          Role: 'Admin',
+          Lot_ID: admin.Lot_ID
+        };
+      }
+    }
 
     if (!user) {
       return {
         success: false,
         data: null,
-        message: "Invalid credentials or role mismatch. Please verify email and password."
+        message: "Invalid credentials. Please verify your email and password."
       };
     }
 
     // Generate simulated JWT token
-    const token = `mock-jwt-token-${user.User_ID}-${Date.now()}`;
+    const token = `mock-jwt-token-${user.User_ID || user.Admin_ID}-${Date.now()}`;
     const userSafe = { ...user };
     delete userSafe.Password;
 

@@ -93,6 +93,28 @@ const loginRules = [
 ];
 
 /**
+ * Helper to safely verify passwords (supports bcrypt hashes with optional plaintext fallback)
+ */
+const verifyPassword = async (inputPass, storedPass) => {
+  if (!storedPass || !inputPass) return false;
+  const candidates = [inputPass];
+  if (inputPass.trim() !== inputPass) {
+    candidates.push(inputPass.trim());
+  }
+  for (const candidate of candidates) {
+    if (storedPass.startsWith('$2')) {
+      try {
+        const match = await bcrypt.compare(candidate, storedPass);
+        if (match) return true;
+      } catch (_) {}
+    } else if (candidate === storedPass) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
  * POST /api/auth/login - Authenticate Driver or Administrator
  */
 router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
@@ -106,13 +128,13 @@ router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
   // 1. If Admin role requested, check admin table first
   if (isAdminPreferred) {
     const [adminRows] = await pool.query(
-      'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(Email) = ?',
+      'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(TRIM(Email)) = ?',
       [cleanEmail]
     );
 
     if (adminRows.length > 0) {
       const admin = adminRows[0];
-      const isMatch = await bcrypt.compare(password, admin.Password);
+      const isMatch = await verifyPassword(password, admin.Password);
       if (isMatch) {
         const adminUser = {
           Admin_ID: admin.Admin_ID,
@@ -134,23 +156,23 @@ router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
 
   // 2. Check users table (Driver)
   const [userRows] = await pool.query(
-    'SELECT User_ID, Name, Email, Phone, Password, Role FROM users WHERE LOWER(Email) = ?',
+    'SELECT User_ID, Name, Email, Phone, Password, Role FROM users WHERE LOWER(TRIM(Email)) = ?',
     [cleanEmail]
   );
 
   if (userRows.length > 0) {
     const user = userRows[0];
-    const isMatch = await bcrypt.compare(password, user.Password);
+    const isMatch = await verifyPassword(password, user.Password);
     if (isMatch) {
       const userSafe = {
         User_ID: user.User_ID,
         Name: user.Name,
         Email: user.Email,
         Phone: user.Phone,
-        Role: user.Role
+        Role: user.Role || 'User'
       };
       const token = jwt.sign(
-        { id: user.User_ID, role: user.Role },
+        { id: user.User_ID, role: user.Role || 'User' },
         JWT_SECRET,
         { expiresIn: JWT_EXPIRES_IN }
       );
@@ -161,13 +183,13 @@ router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
   // 3. Fallback: If not found in users, check admin table (in case User role was sent for an admin account)
   if (!isAdminPreferred) {
     const [adminRows] = await pool.query(
-      'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(Email) = ?',
+      'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(TRIM(Email)) = ?',
       [cleanEmail]
     );
 
     if (adminRows.length > 0) {
       const admin = adminRows[0];
-      const isMatch = await bcrypt.compare(password, admin.Password);
+      const isMatch = await verifyPassword(password, admin.Password);
       if (isMatch) {
         const adminUser = {
           Admin_ID: admin.Admin_ID,
@@ -187,7 +209,7 @@ router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
     }
   }
 
-  return fail(res, 401, 'Invalid credentials');
+  return fail(res, 401, 'Invalid email or password. Please check your credentials.');
 }));
 
 module.exports = router;
