@@ -147,6 +147,35 @@ Ensure you have the following installed on your system:
 
 ---
 
+### TERMINAL 1 (Backend)
+
+```bash
+cd backend
+npm start
+```
+
+---
+
+### TERMINAL 2 (Frontend)
+
+```bash
+python3 -m http.server 5500 --directory frontend
+```
+
+---
+
+### 🌐 Access URLs
+
+- Frontend: http://localhost:5500
+- Login Page: http://localhost:5500/login.html
+- Backend API: http://localhost:5000/api/health
+
+### 🔑 Demo Credentials
+
+- Driver: `user@parksmart.com` / `123456`
+- Admin: `admin@parksmart.com` / `123456`
+
+
 ### 2. Backend Setup
 
 1. Navigate to the `backend/` directory:
@@ -196,16 +225,33 @@ export const CONFIG = {
 
 ## 🏃 Running the Application
 
-### Option A: Standard Terminal Run
+### ⚡ Quick Start: One Command to Run Everything (Copy & Paste)
 
-1. **Start Backend Server**:
+Copy and paste this single command block into your terminal from the **project root directory** to start MySQL, the Backend API (port 5000), and the Frontend Portal (port 5500) all at once:
+
+```bash
+systemctl start mysql && (cd backend && npm install && npm start &) && python3 -m http.server 5500 --directory frontend
+```
+
+*(If you are running from inside the `backend/` directory, run: `systemctl start mysql && npm install && (npm start &) && python3 -m http.server 5500 --directory ../frontend`)*
+
+Once running, open your browser:
+- **Landing Page**: [http://localhost:5500](http://localhost:5500)
+- **Login Page**: [http://localhost:5500/login.html](http://localhost:5500/login.html)
+- **API Health Check**: [http://localhost:5000/api/health](http://localhost:5000/api/health)
+
+---
+
+### Option A: Standard Two-Terminal Run (Recommended for Dev / Debugging)
+
+1. **Terminal 1 - Backend Server**:
    ```bash
    cd backend
    npm run dev
    ```
-   *The server starts at `http://localhost:5000/api` with live database connectivity.*
+   *The server starts at `http://localhost:5000/api` with live database connectivity and auto-reloading.*
 
-2. **Start Frontend Client** (in a second terminal):
+2. **Terminal 2 - Frontend Client**:
    ```bash
    # From the project root:
    python3 -m http.server 5500 --directory frontend
