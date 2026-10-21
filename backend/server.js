@@ -5,8 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
-// Database pool test import
-require('./config/db');
+const db = require('./config/db');
 
 // Error handling and response helpers
 const errorHandler = require('./middleware/errorHandler');
@@ -36,7 +35,7 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http:
 app.use(cors({
   origin: (origin, callback) => {
     // Allow non-browser requests (e.g., Postman, curl, smoke-test) or matching origins
-    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
       return callback(null, true);
     }
     return callback(new Error('Cross-Origin Request Blocked by CORS policy.'));
@@ -77,7 +76,12 @@ app.use('/api/admin', adminRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'ParkSmart API is operational', timestamp: new Date().toISOString() });
+  res.json({
+    success: true,
+    message: 'ParkSmart API is operational',
+    database: db.isDbConnected() ? 'connected' : 'disconnected (verify DB environment variables)',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // 6. 404 Fallback for unmapped endpoints
