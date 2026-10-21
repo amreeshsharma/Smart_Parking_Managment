@@ -3,3 +3,5 @@ node_modules/
 *.log
 frontend/stitch-reference/
 stitch-reference/
+DEPLOYMENT.md
+DEPLOYMENT_STEPS.md
