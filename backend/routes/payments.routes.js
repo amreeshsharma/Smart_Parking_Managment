@@ -121,13 +121,30 @@ router.post('/:id/pay', payRules, validate, asyncHandler(async (req, res) => {
     return fail(res, 400, 'Payment already completed.');
   }
 
-  // 2. Call sp_make_payment via dedicated connection
+  // 2. Call sp_make_payment via dedicated connection with TiDB fallback
   const conn = await pool.getConnection();
   let txnId;
   try {
-    await conn.query('CALL sp_make_payment(?, ?, @out_txn)', [paymentId, mode]);
-    const [outRows] = await conn.query('SELECT @out_txn AS txn_id');
-    txnId = outRows[0]?.txn_id;
+    try {
+      await conn.query('CALL sp_make_payment(?, ?, @out_txn)', [paymentId, mode]);
+      const [outRows] = await conn.query('SELECT @out_txn AS txn_id');
+      txnId = outRows[0]?.txn_id;
+    } catch (spErr) {
+      if (spErr.errno === 1305 || spErr.message.includes('PROCEDURE') || spErr.message.includes('does not exist')) {
+        await conn.beginTransaction();
+        txnId = 'TXN' + Math.floor(Math.random() * 9000000000 + 1000000000);
+        await conn.query(
+          'UPDATE payment SET Payment_Status = ?, Payment_Mode = ?, Transaction_ID = ?, Payment_Date = NOW() WHERE Payment_ID = ?',
+          ['Paid', mode, txnId, paymentId]
+        );
+        await conn.commit();
+      } else {
+        throw spErr;
+      }
+    }
+  } catch (err) {
+    await conn.rollback().catch(() => {});
+    throw err;
   } finally {
     conn.release();
   }

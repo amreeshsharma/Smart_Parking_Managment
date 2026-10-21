@@ -181,9 +181,40 @@ router.post('/entry', requireRole('Admin'), [
   const conn = await pool.getConnection();
   let sessionId;
   try {
-    await conn.query('CALL sp_record_entry_by_rfid(?, @out_session_id)', [rfid]);
-    const [outRows] = await conn.query('SELECT @out_session_id AS session_id');
-    sessionId = outRows[0]?.session_id;
+    try {
+      await conn.query('CALL sp_record_entry_by_rfid(?, @out_session_id)', [rfid]);
+      const [outRows] = await conn.query('SELECT @out_session_id AS session_id');
+      sessionId = outRows[0]?.session_id;
+    } catch (spErr) {
+      if (spErr.errno === 1305 || spErr.message.includes('PROCEDURE') || spErr.message.includes('does not exist')) {
+        await conn.beginTransaction();
+        const [vehRows] = await conn.query('SELECT Vehicle_ID FROM vehicle WHERE RFID_Tag = ?', [rfid]);
+        if (vehRows.length === 0) return fail(res, 404, 'Unknown RFID tag');
+        const vId = vehRows[0].Vehicle_ID;
+
+        const [resRows] = await conn.query(
+          "SELECT Reservation_ID, Bay_ID FROM reservation WHERE Vehicle_ID = ? AND Booking_Date = CURDATE() AND Status = 'Upcoming' ORDER BY Start_Time LIMIT 1",
+          [vId]
+        );
+        if (resRows.length === 0) return fail(res, 404, 'No valid upcoming reservation found for this vehicle today');
+        const rId = resRows[0].Reservation_ID;
+        const bId = resRows[0].Bay_ID;
+
+        const [insSess] = await conn.query(
+          'INSERT INTO parking_session (Entry_Time, Reservation_ID, Vehicle_ID, Bay_ID) VALUES (NOW(), ?, ?, ?)',
+          [rId, vId, bId]
+        );
+        sessionId = insSess.insertId;
+        await conn.query("UPDATE reservation SET Status = 'Active' WHERE Reservation_ID = ?", [rId]);
+        await conn.query("UPDATE parking_bay SET Status = 'Occupied' WHERE Bay_ID = ?", [bId]);
+        await conn.commit();
+      } else {
+        throw spErr;
+      }
+    }
+  } catch (err) {
+    await conn.rollback().catch(() => {});
+    throw err;
   } finally {
     conn.release();
   }
@@ -225,7 +256,7 @@ router.patch('/:id/exit', [
 
   // Check session existence and ownership (Admin or vehicle owner)
   const [sessRows] = await pool.query(`
-    SELECT s.Session_ID, s.Exit_Time, v.User_ID
+    SELECT s.Session_ID, s.Exit_Time, s.Entry_Time, s.Reservation_ID, s.Bay_ID, v.User_ID
     FROM parking_session s
     JOIN vehicle v ON v.Vehicle_ID = s.Vehicle_ID
     WHERE s.Session_ID = ?
@@ -244,10 +275,32 @@ router.patch('/:id/exit', [
     return fail(res, 400, 'Session already closed.');
   }
 
-  // Call sp_mark_exit
+  // Call sp_mark_exit with TiDB fallback
   const conn = await pool.getConnection();
   try {
-    await conn.query('CALL sp_mark_exit(?, ?)', [sessionId, exitDatetime]);
+    try {
+      await conn.query('CALL sp_mark_exit(?, ?)', [sessionId, exitDatetime]);
+    } catch (spErr) {
+      if (spErr.errno === 1305 || spErr.message.includes('PROCEDURE') || spErr.message.includes('does not exist')) {
+        await conn.beginTransaction();
+        const entryDt = new Date(sessRows[0].Entry_Time);
+        const exitDt = new Date(exitDatetime || new Date());
+        const durationMin = Math.max(1, Math.round((exitDt - entryDt) / 60000));
+
+        await conn.query(
+          'UPDATE parking_session SET Exit_Time = ?, Duration_Minutes = ?, Overstay_Minutes = 0, Penalty_Amount = 0.00 WHERE Session_ID = ?',
+          [exitDatetime || new Date(), durationMin, sessionId]
+        );
+        await conn.query("UPDATE reservation SET Status = 'Completed' WHERE Reservation_ID = ?", [sessRows[0].Reservation_ID]);
+        await conn.query("UPDATE parking_bay SET Status = 'Available' WHERE Bay_ID = ?", [sessRows[0].Bay_ID]);
+        await conn.commit();
+      } else {
+        throw spErr;
+      }
+    }
+  } catch (err) {
+    await conn.rollback().catch(() => {});
+    throw err;
   } finally {
     conn.release();
   }
