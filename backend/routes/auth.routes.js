@@ -72,93 +72,122 @@ router.post('/register', registerRules, validate, asyncHandler(async (req, res) 
 }));
 
 /**
- * Validation rules for login
+ * Validation rules for login (supports both camelCase and PascalCase payload)
  */
 const loginRules = [
-  body('email')
-    .trim()
-    .notEmpty().withMessage('Email is required.')
-    .isEmail().withMessage('Please provide a valid email address.'),
-  body('password')
-    .notEmpty().withMessage('Password is required.'),
-  body('role')
-    .optional()
-    .isIn(['User', 'Admin']).withMessage('Role must be either User or Admin.')
+  body().custom((val, { req }) => {
+    const email = req.body.email || req.body.Email;
+    if (!email || typeof email !== 'string' || !email.trim()) {
+      throw new Error('Email is required.');
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      throw new Error('Please provide a valid email address.');
+    }
+    const password = req.body.password || req.body.Password;
+    if (!password || typeof password !== 'string') {
+      throw new Error('Password is required.');
+    }
+    return true;
+  })
 ];
 
 /**
  * POST /api/auth/login - Authenticate Driver or Administrator
  */
 router.post('/login', loginRules, validate, asyncHandler(async (req, res) => {
-  const { email, password, role = 'User' } = req.body;
-  const cleanEmail = email.trim().toLowerCase();
+  const emailRaw = req.body.email || req.body.Email || '';
+  const password = req.body.password || req.body.Password || '';
+  const requestedRole = (req.body.role || req.body.Role || 'User').toString();
+  const cleanEmail = emailRaw.trim().toLowerCase();
 
-  if (role === 'Admin') {
-    // Look up in admin table
-    const [rows] = await pool.query(
+  const isAdminPreferred = requestedRole.toLowerCase() === 'admin';
+
+  // 1. If Admin role requested, check admin table first
+  if (isAdminPreferred) {
+    const [adminRows] = await pool.query(
       'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(Email) = ?',
       [cleanEmail]
     );
 
-    if (rows.length === 0) {
-      return fail(res, 401, 'Invalid credentials');
+    if (adminRows.length > 0) {
+      const admin = adminRows[0];
+      const isMatch = await bcrypt.compare(password, admin.Password);
+      if (isMatch) {
+        const adminUser = {
+          Admin_ID: admin.Admin_ID,
+          User_ID: admin.Admin_ID,
+          Name: admin.Name,
+          Email: admin.Email,
+          Role: 'Admin',
+          Lot_ID: admin.Lot_ID
+        };
+        const token = jwt.sign(
+          { id: admin.Admin_ID, role: 'Admin', lotId: admin.Lot_ID },
+          JWT_SECRET,
+          { expiresIn: JWT_EXPIRES_IN }
+        );
+        return ok(res, { user: adminUser, token }, `Welcome back, ${admin.Name}!`);
+      }
     }
+  }
 
-    const admin = rows[0];
-    const isMatch = await bcrypt.compare(password, admin.Password);
-    if (!isMatch) {
-      return fail(res, 401, 'Invalid credentials');
+  // 2. Check users table (Driver)
+  const [userRows] = await pool.query(
+    'SELECT User_ID, Name, Email, Phone, Password, Role FROM users WHERE LOWER(Email) = ?',
+    [cleanEmail]
+  );
+
+  if (userRows.length > 0) {
+    const user = userRows[0];
+    const isMatch = await bcrypt.compare(password, user.Password);
+    if (isMatch) {
+      const userSafe = {
+        User_ID: user.User_ID,
+        Name: user.Name,
+        Email: user.Email,
+        Phone: user.Phone,
+        Role: user.Role
+      };
+      const token = jwt.sign(
+        { id: user.User_ID, role: user.Role },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN }
+      );
+      return ok(res, { user: userSafe, token }, `Welcome back, ${user.Name}!`);
     }
+  }
 
-    const adminUser = {
-      Admin_ID: admin.Admin_ID,
-      User_ID: admin.Admin_ID,
-      Name: admin.Name,
-      Email: admin.Email,
-      Role: 'Admin',
-      Lot_ID: admin.Lot_ID
-    };
-
-    const token = jwt.sign(
-      { id: admin.Admin_ID, role: 'Admin', lotId: admin.Lot_ID },
-      JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
-    );
-
-    return ok(res, { user: adminUser, token }, `Welcome back, ${admin.Name}!`);
-  } else {
-    // Look up in users table
-    const [rows] = await pool.query(
-      'SELECT User_ID, Name, Email, Phone, Password, Role FROM users WHERE LOWER(Email) = ?',
+  // 3. Fallback: If not found in users, check admin table (in case User role was sent for an admin account)
+  if (!isAdminPreferred) {
+    const [adminRows] = await pool.query(
+      'SELECT Admin_ID, Name, Email, Password, Lot_ID FROM admin WHERE LOWER(Email) = ?',
       [cleanEmail]
     );
 
-    if (rows.length === 0) {
-      return fail(res, 401, 'Invalid credentials');
+    if (adminRows.length > 0) {
+      const admin = adminRows[0];
+      const isMatch = await bcrypt.compare(password, admin.Password);
+      if (isMatch) {
+        const adminUser = {
+          Admin_ID: admin.Admin_ID,
+          User_ID: admin.Admin_ID,
+          Name: admin.Name,
+          Email: admin.Email,
+          Role: 'Admin',
+          Lot_ID: admin.Lot_ID
+        };
+        const token = jwt.sign(
+          { id: admin.Admin_ID, role: 'Admin', lotId: admin.Lot_ID },
+          JWT_SECRET,
+          { expiresIn: JWT_EXPIRES_IN }
+        );
+        return ok(res, { user: adminUser, token }, `Welcome back, ${admin.Name}!`);
+      }
     }
-
-    const user = rows[0];
-    const isMatch = await bcrypt.compare(password, user.Password);
-    if (!isMatch) {
-      return fail(res, 401, 'Invalid credentials');
-    }
-
-    const userSafe = {
-      User_ID: user.User_ID,
-      Name: user.Name,
-      Email: user.Email,
-      Phone: user.Phone,
-      Role: user.Role
-    };
-
-    const token = jwt.sign(
-      { id: user.User_ID, role: user.Role },
-      JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
-    );
-
-    return ok(res, { user: userSafe, token }, `Welcome back, ${user.Name}!`);
   }
+
+  return fail(res, 401, 'Invalid credentials');
 }));
 
 module.exports = router;
