@@ -1,3 +1,5 @@
 node_modules/
 .env
 *.log
+frontend/stitch-reference/
+stitch-reference/
