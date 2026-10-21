@@ -24,8 +24,14 @@ const adminRoutes = require('./routes/admin.routes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 1. Security HTTP Headers
-app.use(helmet());
+const path = require('path');
+const fs = require('fs');
+
+// 1. Security HTTP Headers (configured to allow external fonts & CDN icons)
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: false
+}));
 
 // 2. Cross-Origin Resource Sharing (CORS)
 const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:5500,http://127.0.0.1:5500')
@@ -34,32 +40,45 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http:
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow non-browser requests (e.g., Postman, curl, smoke-test) or matching origins
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    // Allow non-browser requests, origin 'null' (file://, local previews), any localhost/IP, or cloud deployments
+    if (
+      !origin ||
+      origin === 'null' ||
+      allowedOrigins.includes('*') ||
+      allowedOrigins.includes(origin) ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      origin.startsWith('http://0.0.0.0:') ||
+      origin.startsWith('http://192.168.') ||
+      origin.startsWith('http://10.') ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.onrender.com')
+    ) {
       return callback(null, true);
     }
     return callback(new Error('Cross-Origin Request Blocked by CORS policy.'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-test-suite']
 }));
 
 // 3. Request parsing with 100kb payload limit
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-// 4. Rate limiting for authentication routes (10 requests per 15 mins per IP)
+// 4. Rate limiting for authentication routes (10 failed attempts per 1 min per IP)
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 60 * 1000,
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
+  skipSuccessfulRequests: true,
   skip: (req) => req.headers['x-test-suite'] === 'true' || process.env.NODE_ENV === 'test',
   message: {
     success: false,
     data: null,
-    message: 'Too many authentication attempts from this IP address. Please try again after 15 minutes.'
+    message: 'Too many failed authentication attempts. Please wait a minute and try again.'
   }
 });
 
@@ -84,8 +103,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 6. 404 Fallback for unmapped endpoints
+// 6. Static frontend assets serving
+const frontendPath = path.join(__dirname, '../frontend');
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+}
+
+// 7. 404 Fallback for unmapped endpoints
 app.use((req, res) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return fail(res, 404, `Endpoint ${req.method} ${req.originalUrl} not found.`);
+  }
+  const indexHtml = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexHtml)) {
+    return res.sendFile(indexHtml);
+  }
   return fail(res, 404, `Endpoint ${req.method} ${req.originalUrl} not found.`);
 });
 

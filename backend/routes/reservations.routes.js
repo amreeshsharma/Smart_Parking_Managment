@@ -141,17 +141,47 @@ router.post('/', createReservationRules, validate, asyncHandler(async (req, res)
     return fail(res, 403, 'Forbidden: You do not own this vehicle.');
   }
 
-  // 2. Execute sp_create_reservation on a dedicated pool connection
+  // 2. Execute sp_create_reservation on a dedicated pool connection with TiDB fallback
   const conn = await pool.getConnection();
   let resId;
   try {
-    await conn.query(
-      'CALL sp_create_reservation(?, ?, ?, ?, ?, @out_res_id)',
-      [vehicleId, bayId, bookingDate, startTime, endTime]
-    );
+    try {
+      await conn.query(
+        'CALL sp_create_reservation(?, ?, ?, ?, ?, @out_res_id)',
+        [vehicleId, bayId, bookingDate, startTime, endTime]
+      );
+      const [outRows] = await conn.query('SELECT @out_res_id AS res_id');
+      resId = outRows[0]?.res_id;
+    } catch (spErr) {
+      if (spErr.errno === 1305 || spErr.message.includes('PROCEDURE') || spErr.message.includes('does not exist')) {
+        await conn.beginTransaction();
+        const [bayRows] = await conn.query('SELECT Bay_Type FROM parking_bay WHERE Bay_ID = ? FOR UPDATE', [bayId]);
+        const bayType = bayRows[0]?.Bay_Type || 'Regular';
+        const rates = { Regular: 40, EV: 60, Disabled: 20, Compact: 30 };
+        const hourlyRate = rates[bayType] || 40;
+        const [sh, sm] = startTime.split(':').map(Number);
+        const [eh, em] = endTime.split(':').map(Number);
+        const hours = Math.max(0.5, ((eh * 60 + em) - (sh * 60 + sm)) / 60);
+        const fee = Math.round(hourlyRate * hours * 100) / 100;
 
-    const [outRows] = await conn.query('SELECT @out_res_id AS res_id');
-    resId = outRows[0]?.res_id;
+        const [insertRes] = await conn.query(
+          'INSERT INTO reservation (Booking_Date, Start_Time, End_Time, Status, Vehicle_ID, Bay_ID) VALUES (?, ?, ?, ?, ?, ?)',
+          [bookingDate, startTime, endTime, 'Upcoming', vehicleId, bayId]
+        );
+        resId = insertRes.insertId;
+
+        await conn.query(
+          'INSERT INTO payment (Amount, Payment_Type, Payment_Status, Reservation_ID) VALUES (?, ?, ?, ?)',
+          [fee, 'Reservation Fee', 'Pending', resId]
+        );
+        await conn.commit();
+      } else {
+        throw spErr;
+      }
+    }
+  } catch (err) {
+    await conn.rollback().catch(() => {});
+    throw err;
   } finally {
     conn.release();
   }
