@@ -34,8 +34,17 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http:
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow non-browser requests (e.g., Postman, curl, smoke-test) or matching origins
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    // Allow non-browser requests, any localhost / 127.0.0.1 / 0.0.0.0, or wildcard / cloud deployments
+    if (
+      !origin ||
+      allowedOrigins.includes('*') ||
+      allowedOrigins.includes(origin) ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      origin.startsWith('http://0.0.0.0:') ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.onrender.com')
+    ) {
       return callback(null, true);
     }
     return callback(new Error('Cross-Origin Request Blocked by CORS policy.'));
