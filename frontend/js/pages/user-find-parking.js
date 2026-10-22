@@ -53,19 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadUserVehicles(user.User_ID)
   ]);
 
-  // Floor Tabs Listeners
-  const floorButtons = document.querySelectorAll('#floor-tabs-nav .tab-btn');
-  floorButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      floorButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentFloor = btn.getAttribute('data-floor');
-      if (selectedLot) {
-        loadBayGrid(selectedLot.Lot_ID, currentFloor);
-      }
-    });
-  });
-
   // Time & Date change listeners to dynamically recalculate fee
   const startTimeInput = document.getElementById('start-time');
   const endTimeInput = document.getElementById('end-time');
@@ -119,11 +106,45 @@ async function loadParkingFacilities() {
   const container = document.getElementById('lots-selection-grid');
   if (!container) return;
 
-  const res = await getLots();
-  allFacilityLots = res.data || [];
+  // Loading skeleton
+  container.innerHTML = `
+    <div class="card skeleton" style="height: 190px;"></div>
+    <div class="card skeleton" style="height: 190px;"></div>
+    <div class="card skeleton" style="height: 190px;"></div>
+  `;
+
+  try {
+    const res = await getLots();
+    if (!res.success) {
+      throw new Error(res.message || "Failed to load facilities");
+    }
+    allFacilityLots = res.data || [];
+  } catch (err) {
+    console.error("Failed to fetch lots:", err);
+    container.innerHTML = `
+      <div class="card" style="grid-column: 1/-1; padding: 2rem; text-align: center;">
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--status-occupied-text);">
+          Could not load parking facilities
+        </div>
+        <p class="text-sm text-muted" style="margin-bottom: 1rem;">
+          ${escapeHtml(err.message || 'Please check server connection and try again.')}
+        </p>
+        <button type="button" class="btn btn-secondary btn-sm" id="retry-lots-btn">
+          <span>Retry</span>
+        </button>
+      </div>
+    `;
+    document.getElementById('retry-lots-btn')?.addEventListener('click', loadParkingFacilities);
+    return;
+  }
 
   if (allFacilityLots.length === 0) {
-    container.innerHTML = `<div class="card" style="grid-column: 1/-1;">No parking facilities found.</div>`;
+    container.innerHTML = `
+      <div class="card" style="grid-column: 1/-1; padding: 2rem; text-align: center;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">No Parking Facilities Available</h3>
+        <p class="text-sm text-muted">There are currently no active parking lots in the system.</p>
+      </div>
+    `;
     return;
   }
 
@@ -179,9 +200,57 @@ async function loadParkingFacilities() {
 }
 
 /**
+ * Dynamically generate floor tabs based on the bays present in the selected facility
+ */
+async function updateFloorTabsForLot(lotId) {
+  const tabsNav = document.getElementById('floor-tabs-nav');
+  if (!tabsNav) return;
+
+  try {
+    const res = await getBays(lotId);
+    const bays = res.data || [];
+    const floorSet = new Set(bays.map(b => b.Floor).filter(Boolean));
+    const floors = Array.from(floorSet);
+
+    if (floors.length === 0) {
+      floors.push('Floor 1');
+    }
+
+    floors.sort((a, b) => {
+      const na = parseInt(String(a).replace(/\D/g, ''), 10) || 0;
+      const nb = parseInt(String(b).replace(/\D/g, ''), 10) || 0;
+      return na - nb;
+    });
+
+    if (!floors.includes(currentFloor)) {
+      currentFloor = floors[0];
+    }
+
+    tabsNav.innerHTML = floors.map(f => `
+      <button type="button" class="tab-btn ${f === currentFloor ? 'active' : ''}" data-floor="${escapeHtml(f)}">
+        <span>${escapeHtml(f)}</span>
+      </button>
+    `).join('');
+
+    tabsNav.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabsNav.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFloor = btn.getAttribute('data-floor');
+        if (selectedLot) {
+          loadBayGrid(selectedLot.Lot_ID, currentFloor);
+        }
+      });
+    });
+  } catch (err) {
+    console.error("Failed to load floors for lot:", err);
+  }
+}
+
+/**
  * Switch selected parking facility
  */
-function selectLot(lotId) {
+async function selectLot(lotId) {
   selectedLot = allFacilityLots.find(l => l.Lot_ID === lotId);
   if (!selectedLot) return;
 
@@ -201,7 +270,8 @@ function selectLot(lotId) {
   selectedBay = null;
   updateSummarySelection();
 
-  // Load bays for current active floor
+  // Dynamically update floor tabs and load bay grid
+  await updateFloorTabsForLot(lotId);
   loadBayGrid(lotId, currentFloor);
 }
 
@@ -291,15 +361,29 @@ function renderBaySlotHtml(bay) {
  */
 async function loadUserVehicles(userId) {
   const select = document.getElementById('select-vehicle');
+  const vehicleError = document.getElementById('vehicle-select-error');
+  const submitBtn = document.getElementById('confirm-reservation-btn');
   if (!select) return;
 
   const res = await getVehicles(userId);
   userVehicles = res.data || [];
 
   if (userVehicles.length === 0) {
-    select.innerHTML = '<option value="">No registered vehicles found</option>';
+    select.innerHTML = '<option value="">No vehicles registered</option>';
+    select.disabled = true;
+    if (vehicleError) {
+      vehicleError.innerHTML = 'No vehicles found in your fleet. <a href="vehicles.html" style="text-decoration:underline; font-weight:700; color:var(--color-primary); margin-left:4px;">Add a vehicle first &rarr;</a>';
+      vehicleError.style.display = 'block';
+    }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.title = "Please add a registered vehicle first.";
+    }
     return;
   }
+
+  select.disabled = false;
+  if (vehicleError) vehicleError.style.display = 'none';
 
   select.innerHTML = '<option value="">-- Choose registered vehicle --</option>' +
     userVehicles.map(v => `
@@ -457,11 +541,11 @@ async function handleReservationSubmit(userId) {
     const vehicle = userVehicles.find(v => v.Vehicle_ID === vehicleId);
 
     document.getElementById('modal-success-bay').textContent = `Bay ${selectedBay.Bay_Number}`;
-    document.getElementById('modal-success-lot').textContent = `${selectedLot.Lot_Name} • ${selectedBay.Floor}`;
+    document.getElementById('modal-success-lot').textContent = `${selectedLot ? selectedLot.Lot_Name : ''} • ${selectedBay.Floor}`;
     document.getElementById('modal-success-vehicle').textContent = vehicle ? `${vehicle.Vehicle_Number} (${vehicle.Brand})` : 'Vehicle Attached';
     document.getElementById('modal-success-schedule').textContent = `${bookingDate}, ${startTime} - ${endTime}`;
-    document.getElementById('modal-success-fee').textContent = formatCurrency(payment.Amount);
-    document.getElementById('modal-success-txn').textContent = payment.Transaction_ID;
+    document.getElementById('modal-success-fee').textContent = formatCurrency(payment?.Amount || 0);
+    document.getElementById('modal-success-txn').textContent = (payment && payment.Transaction_ID) ? payment.Transaction_ID : 'Pending / N/A';
 
     openModal('booking-success-modal');
     showToast(res.message, 'success');

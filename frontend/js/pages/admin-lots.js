@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const modalTitle = document.getElementById('lot-modal-title');
   const nameInput = document.getElementById('lot-name-input');
   const locInput = document.getElementById('lot-location-input');
+  const floorsInput = document.getElementById('lot-floors-input');
+  const baysPerFloorInput = document.getElementById('lot-bays-per-floor-input');
+  const layoutFields = document.getElementById('lot-layout-fields');
   const baysInput = document.getElementById('lot-bays-input');
   const openInput = document.getElementById('lot-open-input');
   const closeInput = document.getElementById('lot-close-input');
@@ -46,6 +49,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   const hoursError = document.getElementById('lot-hours-error');
   const alertEl = document.getElementById('lot-modal-alert');
   const submitBtn = document.getElementById('lot-submit-btn');
+
+  // Auto calculate total bays from floors * bays per floor
+  const autoCalcBays = () => {
+    if (floorsInput && baysPerFloorInput && baysInput) {
+      const f = Math.max(1, Number(floorsInput.value) || 1);
+      const b = Math.max(1, Number(baysPerFloorInput.value) || 24);
+      baysInput.value = f * b;
+    }
+  };
+  if (floorsInput) floorsInput.addEventListener('input', autoCalcBays);
+  if (baysPerFloorInput) baysPerFloorInput.addEventListener('input', autoCalcBays);
 
   // Modal Close Handlers
   document.querySelectorAll('.modal-close-btn').forEach(btn => {
@@ -58,6 +72,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     lotIdInput.value = '';
     modalTitle.textContent = 'Add Municipal Parking Facility';
     submitBtn.textContent = 'Create Facility';
+    if (layoutFields) layoutFields.style.display = 'grid';
+    if (floorsInput) floorsInput.value = '1';
+    if (baysPerFloorInput) baysPerFloorInput.value = '24';
+    if (baysInput) baysInput.value = '24';
     baysInput.parentElement.style.display = 'block';
     clearErrors();
     openModal('lot-modal');
@@ -135,6 +153,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       Open_Time: openInput.value,
       Close_Time: closeInput.value
     };
+
+    if (!isEdit && floorsInput && baysPerFloorInput) {
+      payload.Floors = Number(floorsInput.value) || 1;
+      payload.Bays_Per_Floor = Number(baysPerFloorInput.value) || 24;
+      payload.Total_Bays = Number(baysInput.value) || (payload.Floors * payload.Bays_Per_Floor);
+    }
 
     try {
       const res = isEdit
@@ -263,6 +287,7 @@ function filterAndRenderTable() {
       document.getElementById('lot-location-input').value = lot.Location;
       document.getElementById('lot-bays-input').value = lot.Total_Bays;
       document.getElementById('lot-bays-input').parentElement.style.display = 'none'; // cannot alter bay capacity directly from edit
+      if (layoutFields) layoutFields.style.display = 'none';
       document.getElementById('lot-open-input').value = lot.Open_Time;
       document.getElementById('lot-close-input').value = lot.Close_Time;
       document.getElementById('lot-submit-btn').textContent = 'Update Facility';
