@@ -9,15 +9,19 @@ const { ok, fail } = require('../utils/response');
 
 /**
  * GET /api/lots - List all municipal parking facilities with live availability metrics
- * Uses view: v_lot_availability
  */
 router.get('/', asyncHandler(async (req, res) => {
   const [rows] = await pool.query(`
-    SELECT Lot_ID, Lot_Name, Location, Open_Time, Close_Time,
-           Total_Bays, Available_Bays, Reserved_Bays, Occupied_Bays,
-           Occupancy_Percent
-    FROM v_lot_availability
-    ORDER BY Lot_ID ASC
+    SELECT l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time,
+           COALESCE(NULLIF(COUNT(b.Bay_ID), 0), l.Total_Bays, 0) AS Total_Bays,
+           COALESCE(SUM(b.Status = 'Available'), 0) AS Available_Bays,
+           COALESCE(SUM(b.Status = 'Reserved'), 0) AS Reserved_Bays,
+           COALESCE(SUM(b.Status = 'Occupied'), 0) AS Occupied_Bays,
+           ROUND(COALESCE(100 * SUM(b.Status <> 'Available') / NULLIF(COUNT(b.Bay_ID), 0), 0), 1) AS Occupancy_Percent
+    FROM parking_lot l
+    LEFT JOIN parking_bay b ON b.Lot_ID = l.Lot_ID
+    GROUP BY l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time, l.Total_Bays
+    ORDER BY l.Lot_ID ASC
   `);
 
   // Map each lot to include both Occupancy_Percent and Occupancy_Percentage for frontend compatibility
@@ -42,11 +46,16 @@ router.get('/:id', [
 ], validate, asyncHandler(async (req, res) => {
   const lotId = Number(req.params.id);
   const [rows] = await pool.query(`
-    SELECT Lot_ID, Lot_Name, Location, Open_Time, Close_Time,
-           Total_Bays, Available_Bays, Reserved_Bays, Occupied_Bays,
-           Occupancy_Percent
-    FROM v_lot_availability
-    WHERE Lot_ID = ?
+    SELECT l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time,
+           COALESCE(NULLIF(COUNT(b.Bay_ID), 0), l.Total_Bays, 0) AS Total_Bays,
+           COALESCE(SUM(b.Status = 'Available'), 0) AS Available_Bays,
+           COALESCE(SUM(b.Status = 'Reserved'), 0) AS Reserved_Bays,
+           COALESCE(SUM(b.Status = 'Occupied'), 0) AS Occupied_Bays,
+           ROUND(COALESCE(100 * SUM(b.Status <> 'Available') / NULLIF(COUNT(b.Bay_ID), 0), 0), 1) AS Occupancy_Percent
+    FROM parking_lot l
+    LEFT JOIN parking_bay b ON b.Lot_ID = l.Lot_ID
+    WHERE l.Lot_ID = ?
+    GROUP BY l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time, l.Total_Bays
   `, [lotId]);
 
   if (rows.length === 0) {

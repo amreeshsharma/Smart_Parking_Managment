@@ -83,11 +83,18 @@ router.get('/stats', asyncHandler(async (req, res) => {
   );
   const overstayCount = Number(overstayStatsRows[0].overstayCount || 0);
 
-  // 6. Occupancy per parking lot from v_lot_availability
+  // 6. Occupancy per parking lot queried directly with LEFT JOIN to safely handle lots with 0 bays
   const [lotAvailabilityRows] = await pool.query(`
-    SELECT Lot_ID, Lot_Name, Total_Bays, Available_Bays, Reserved_Bays, Occupied_Bays, Occupancy_Percent
-    FROM v_lot_availability
-    ORDER BY Lot_ID ASC
+    SELECT l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time,
+           COALESCE(NULLIF(COUNT(b.Bay_ID), 0), l.Total_Bays, 0) AS Total_Bays,
+           COALESCE(SUM(b.Status = 'Available'), 0) AS Available_Bays,
+           COALESCE(SUM(b.Status = 'Reserved'), 0) AS Reserved_Bays,
+           COALESCE(SUM(b.Status = 'Occupied'), 0) AS Occupied_Bays,
+           ROUND(COALESCE(100 * SUM(b.Status <> 'Available') / NULLIF(COUNT(b.Bay_ID), 0), 0), 1) AS Occupancy_Percent
+    FROM parking_lot l
+    LEFT JOIN parking_bay b ON b.Lot_ID = l.Lot_ID
+    GROUP BY l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time, l.Total_Bays
+    ORDER BY l.Lot_ID ASC
   `);
 
   const occupancyByLot = lotAvailabilityRows.map(l => ({
@@ -194,11 +201,16 @@ router.get('/stats', asyncHandler(async (req, res) => {
  */
 router.get('/lots', asyncHandler(async (req, res) => {
   const [rows] = await pool.query(`
-    SELECT Lot_ID, Lot_Name, Location, Open_Time, Close_Time,
-           Total_Bays, Available_Bays, Reserved_Bays, Occupied_Bays,
-           Occupancy_Percent
-    FROM v_lot_availability
-    ORDER BY Lot_ID ASC
+    SELECT l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time,
+           COALESCE(NULLIF(COUNT(b.Bay_ID), 0), l.Total_Bays, 0) AS Total_Bays,
+           COALESCE(SUM(b.Status = 'Available'), 0) AS Available_Bays,
+           COALESCE(SUM(b.Status = 'Reserved'), 0) AS Reserved_Bays,
+           COALESCE(SUM(b.Status = 'Occupied'), 0) AS Occupied_Bays,
+           ROUND(COALESCE(100 * SUM(b.Status <> 'Available') / NULLIF(COUNT(b.Bay_ID), 0), 0), 1) AS Occupancy_Percent
+    FROM parking_lot l
+    LEFT JOIN parking_bay b ON b.Lot_ID = l.Lot_ID
+    GROUP BY l.Lot_ID, l.Lot_Name, l.Location, l.Open_Time, l.Close_Time, l.Total_Bays
+    ORDER BY l.Lot_ID ASC
   `);
 
   const lots = rows.map(l => ({
@@ -215,64 +227,97 @@ router.get('/lots', asyncHandler(async (req, res) => {
 const addLotRules = [
   body('Lot_Name').trim().notEmpty().withMessage('Facility name is required.'),
   body('Location').trim().notEmpty().withMessage('Location address is required.'),
-  body('Total_Bays').isInt({ min: 1 }).withMessage('Total bays must be a positive integer.'),
+  body('Total_Bays').optional().isInt({ min: 1 }).withMessage('Total bays must be a positive integer.'),
+  body('Floors').optional().isInt({ min: 1, max: 20 }).withMessage('Floors must be a positive integer.'),
+  body('Bays_Per_Floor').optional().isInt({ min: 1, max: 100 }).withMessage('Bays per floor must be a positive integer.'),
+  body('baysPerFloor').optional().isInt({ min: 1, max: 100 }).withMessage('Bays per floor must be a positive integer.'),
   body('Open_Time').matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/).withMessage('Valid Open_Time (HH:MM or HH:MM:SS) required.'),
   body('Close_Time').matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/).withMessage('Valid Close_Time (HH:MM or HH:MM:SS) required.')
 ];
 
 /**
- * POST /api/admin/lots - Create municipal facility and provision initial bay layout
+ * POST /api/admin/lots - Create municipal facility and provision initial bay layout transactionally
  */
 router.post('/lots', addLotRules, validate, asyncHandler(async (req, res) => {
   const lotName = req.body.Lot_Name.trim();
   const location = req.body.Location.trim();
-  const totalBays = Number(req.body.Total_Bays);
   const openTime = normalizeTime(req.body.Open_Time);
   const closeTime = normalizeTime(req.body.Close_Time);
+
+  const numFloors = Number(req.body.Floors || req.body.floors || 0);
+  const baysPerFloor = Number(req.body.Bays_Per_Floor || req.body.baysPerFloor || 0);
+
+  let totalBays = Number(req.body.Total_Bays || req.body.totalBays || 0);
+  if (numFloors > 0 && baysPerFloor > 0) {
+    totalBays = numFloors * baysPerFloor;
+  } else if (!totalBays || totalBays <= 0) {
+    totalBays = 24;
+  }
 
   if (openTime >= closeTime && closeTime !== '23:59:59') {
     return fail(res, 400, 'Open time must be earlier than close time.');
   }
 
-  // Insert facility record
-  const [result] = await pool.query(
-    'INSERT INTO parking_lot (Lot_Name, Location, Total_Bays, Open_Time, Close_Time) VALUES (?, ?, ?, ?, ?)',
-    [lotName, location, totalBays, openTime, closeTime]
-  );
-  const lotId = result.insertId;
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
 
-  // Provision default bays across 3 floors
-  const perFloor = Math.ceil(totalBays / 3);
-  const bayInserts = [];
-  let count = 0;
-
-  for (let f = 1; f <= 3; f++) {
-    for (let s = 1; s <= perFloor; s++) {
-      if (count >= totalBays) break;
-      count++;
-      const bayNum = `F${f}-${String(s).padStart(2, '0')}`;
-      const bayType = s <= 2 ? 'EV' : (s === 3 ? 'Disabled' : (s <= 5 ? 'Compact' : 'Regular'));
-      bayInserts.push([bayNum, f, bayType, 'Available', lotId]);
-    }
-  }
-
-  if (bayInserts.length > 0) {
-    await pool.query(
-      'INSERT INTO parking_bay (Bay_Number, Floor, Bay_Type, Status, Lot_ID) VALUES ?',
-      [bayInserts]
+    const [result] = await conn.query(
+      'INSERT INTO parking_lot (Lot_Name, Location, Total_Bays, Open_Time, Close_Time) VALUES (?, ?, ?, ?, ?)',
+      [lotName, location, totalBays, openTime, closeTime]
     );
+    const lotId = result.insertId;
+
+    const actualFloors = numFloors > 0 ? numFloors : 3;
+    const actualPerFloor = baysPerFloor > 0 ? baysPerFloor : Math.ceil(totalBays / actualFloors);
+    const bayInserts = [];
+    let count = 0;
+
+    for (let f = 1; f <= actualFloors; f++) {
+      for (let s = 1; s <= actualPerFloor; s++) {
+        if (!numFloors && count >= totalBays) break;
+        count++;
+        const bayNum = `F${f}-${String(s).padStart(2, '0')}`;
+        const bayType = s === 1 ? 'EV' : (s === 2 ? 'Disabled' : (s <= 4 ? 'Compact' : 'Regular'));
+        bayInserts.push([bayNum, f, bayType, 'Available', lotId]);
+      }
+    }
+
+    if (bayInserts.length > 0) {
+      await conn.query(
+        'INSERT INTO parking_bay (Bay_Number, Floor, Bay_Type, Status, Lot_ID) VALUES ?',
+        [bayInserts]
+      );
+      await conn.query(
+        'UPDATE parking_lot SET Total_Bays = ? WHERE Lot_ID = ?',
+        [bayInserts.length, lotId]
+      );
+      totalBays = bayInserts.length;
+    }
+
+    await conn.commit();
+
+    const newLot = {
+      Lot_ID: lotId,
+      Lot_Name: lotName,
+      Location: location,
+      Total_Bays: totalBays,
+      Available_Bays: totalBays,
+      Reserved_Bays: 0,
+      Occupied_Bays: 0,
+      Occupancy_Percent: 0,
+      Occupancy_Percentage: 0,
+      Open_Time: openTime,
+      Close_Time: closeTime
+    };
+
+    return ok(res, newLot, 'Parking lot created with default bays.', 201);
+  } catch (err) {
+    await conn.rollback().catch(() => {});
+    throw err;
+  } finally {
+    conn.release();
   }
-
-  const newLot = {
-    Lot_ID: lotId,
-    Lot_Name: lotName,
-    Location: location,
-    Total_Bays: totalBays,
-    Open_Time: openTime,
-    Close_Time: closeTime
-  };
-
-  return ok(res, newLot, 'Parking lot created with default bays.', 201);
 }));
 
 /**
@@ -345,10 +390,16 @@ router.delete('/lots/:id', [
 router.get('/bays', [
   query('lot').optional().trim(),
   query('lotId').optional().trim(),
-  query('floor').optional().trim()
+  query('lot_id').optional().trim(),
+  query('floor').optional().trim(),
+  query('bay_type').optional().trim(),
+  query('bayType').optional().trim(),
+  query('status').optional().trim()
 ], validate, asyncHandler(async (req, res) => {
-  const rawLot = req.query.lot || req.query.lotId;
+  const rawLot = req.query.lot || req.query.lotId || req.query.lot_id;
   const rawFloor = req.query.floor;
+  const rawType = req.query.bay_type || req.query.bayType;
+  const rawStatus = req.query.status;
 
   let sql = `
     SELECT b.Bay_ID, b.Bay_Number, b.Floor, b.Bay_Type, b.Status, b.Lot_ID,
@@ -368,6 +419,16 @@ router.get('/bays', [
     const fInt = parseFloorNumber(rawFloor);
     sql += ' AND b.Floor = ?';
     params.push(fInt);
+  }
+
+  if (rawType && rawType.toLowerCase() !== 'all') {
+    sql += ' AND LOWER(b.Bay_Type) = LOWER(?)';
+    params.push(rawType);
+  }
+
+  if (rawStatus && rawStatus.toLowerCase() !== 'all') {
+    sql += ' AND LOWER(b.Status) = LOWER(?)';
+    params.push(rawStatus);
   }
 
   sql += ' ORDER BY b.Lot_ID ASC, b.Floor ASC, b.Bay_Number ASC';

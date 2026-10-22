@@ -305,6 +305,15 @@ router.patch('/:id/exit', [
     conn.release();
   }
 
+  // Ensure bay status is marked as Available
+  await pool.query(
+    `UPDATE parking_bay SET Status = 'Available'
+     WHERE Bay_ID = ? AND NOT EXISTS (
+       SELECT 1 FROM reservation WHERE Bay_ID = ? AND Status IN ('Upcoming', 'Active')
+     )`,
+    [sessRows[0].Bay_ID, sessRows[0].Bay_ID]
+  );
+
   // Fetch updated session
   const [updatedRows] = await pool.query(`
     SELECT s.Session_ID, s.Entry_Time, s.Exit_Time, s.Duration_Minutes,
