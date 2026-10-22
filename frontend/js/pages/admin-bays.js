@@ -9,7 +9,7 @@
  */
 
 import { requireAuth } from '../auth.js';
-import { getLots, getBays, addBay, updateBay, deleteBay, TARIFF_RATES } from '../api.js';
+import { getLots, getAdminBays, addBay, updateBay, deleteBay, TARIFF_RATES } from '../api.js';
 import {
   initLayout,
   renderBadge,
@@ -171,21 +171,13 @@ async function fetchAllBays() {
   const tbody = document.getElementById('bays-tbody');
   renderTableLoading(tbody, 8, 5);
 
-  // Fetch bays across all lots
-  const bayPromises = allLots.map(l => getBays(l.Lot_ID));
-  const results = await Promise.all(bayPromises);
-
-  allBays = [];
-  results.forEach((res, idx) => {
-    const lot = allLots[idx];
-    const bays = res.data || [];
-    bays.forEach(b => {
-      allBays.push({
-        ...b,
-        Lot_Name: lot.Lot_Name
-      });
-    });
-  });
+  try {
+    const res = await getAdminBays();
+    allBays = res.data || [];
+  } catch (err) {
+    console.error("Failed to fetch bays:", err);
+    allBays = [];
+  }
 
   filterAndRenderTable();
 }

@@ -27,6 +27,15 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const fs = require('fs');
 
+// Disable ETag and configure no-store cache headers for API freshness
+app.set('etag', false);
+app.use('/api', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // 1. Security HTTP Headers (configured to allow external fonts & CDN icons)
 app.use(helmet({
   contentSecurityPolicy: false,

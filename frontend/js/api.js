@@ -73,12 +73,28 @@ async function liveFetch(endpoint, method = 'GET', body = null) {
     ...(token ? { 'Authorization': `Bearer ${token}` } : {})
   };
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout for slow Render wakeups
+
+  let slowNoticeTimer = null;
+  if (typeof window !== 'undefined') {
+    slowNoticeTimer = setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('parksmart-server-slow', {
+        detail: { message: 'Server is waking up, please wait (Render free tier may take 30-60s)...' }
+      }));
+    }, 3500);
+  }
+
   try {
     const response = await fetch(`${CONFIG.API_BASE_URL}${endpoint}`, {
       method,
       headers,
-      body: body ? JSON.stringify(body) : null
+      body: body ? JSON.stringify(body) : null,
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
+    if (slowNoticeTimer) clearTimeout(slowNoticeTimer);
 
     let result;
     const contentType = response.headers.get('content-type') || '';
@@ -102,7 +118,16 @@ async function liveFetch(endpoint, method = 'GET', body = null) {
       message: result.message || 'Success'
     };
   } catch (error) {
+    clearTimeout(timeoutId);
+    if (slowNoticeTimer) clearTimeout(slowNoticeTimer);
     console.error(`[liveFetch] ${method} ${endpoint} failed:`, error);
+    if (error.name === 'AbortError') {
+      return {
+        success: false,
+        data: null,
+        message: 'Request timed out waiting for server. If deployed on Render, the free instance may still be waking up. Please retry in a moment.'
+      };
+    }
     const isConnRefused = error.message && (
       error.message.includes('Failed to fetch') ||
       error.message.includes('NetworkError') ||
@@ -432,19 +457,23 @@ export async function addLot(data) {
 
     db.lots.push(newLot);
 
-    // Automatically provision default bays across 3 floors if bays don't exist
-    const prefixes = ['A', 'B', 'C'];
-    const bayCount = newLot.Total_Bays;
-    const perFloor = Math.ceil(bayCount / 3);
+    // Automatically provision default bays across floors
+    const numFloors = Number(data.Floors) || (data.Bays_Per_Floor ? Math.max(1, Math.round((Number(data.Total_Bays) || 24) / Number(data.Bays_Per_Floor))) : 3);
+    const perFloor = Number(data.Bays_Per_Floor) || Math.ceil((Number(data.Total_Bays) || 24) / numFloors);
+    const bayCount = Number(data.Total_Bays) || (numFloors * perFloor);
+    newLot.Total_Bays = bayCount;
+
+    const prefixes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     let nextBayId = db.bays.length ? Math.max(...db.bays.map(b => b.Bay_ID)) + 1 : 1;
 
-    for (let f = 1; f <= 3; f++) {
+    for (let f = 1; f <= numFloors; f++) {
+      const pfx = prefixes[(f - 1) % prefixes.length];
       for (let s = 1; s <= perFloor; s++) {
         if ((f - 1) * perFloor + s > bayCount) break;
         const bayType = s <= 2 ? 'EV' : (s <= 3 ? 'Disabled' : (s <= 5 ? 'Compact' : 'Regular'));
         db.bays.push({
           Bay_ID: nextBayId++,
-          Bay_Number: `${prefixes[f - 1]}-${f}0${s}`,
+          Bay_Number: `${pfx}-${f}${String(s).padStart(2, '0')}`,
           Floor: `Floor ${f}`,
           Bay_Type: bayType,
           Status: 'Available',
@@ -511,6 +540,48 @@ export async function deleteLot(id) {
   }
 
   return liveFetch(`/admin/lots/${id}`, 'DELETE');
+}
+
+export async function getAdminBays(params = {}) {
+  if (CONFIG.USE_MOCK) {
+    await sleep();
+    const db = getMockDB();
+    let bays = (db.bays || []).map(b => {
+      const lot = (db.lots || []).find(l => l.Lot_ID === b.Lot_ID);
+      return {
+        ...b,
+        Lot_Name: lot ? lot.Lot_Name : `Lot #${b.Lot_ID}`
+      };
+    });
+
+    const lotId = params.lot_id || params.lotId || params.lot;
+    if (lotId && String(lotId).toLowerCase() !== 'all') {
+      bays = bays.filter(b => b.Lot_ID === Number(lotId));
+    }
+    if (params.floor && String(params.floor).toLowerCase() !== 'all') {
+      bays = bays.filter(b => String(b.Floor).toLowerCase().includes(String(params.floor).toLowerCase()));
+    }
+    const bayType = params.bay_type || params.bayType;
+    if (bayType && String(bayType).toLowerCase() !== 'all') {
+      bays = bays.filter(b => String(b.Bay_Type).toLowerCase() === String(bayType).toLowerCase());
+    }
+    if (params.status && String(params.status).toLowerCase() !== 'all') {
+      bays = bays.filter(b => String(b.Status).toLowerCase() === String(params.status).toLowerCase());
+    }
+
+    return { success: true, data: bays, message: "Bays retrieved." };
+  }
+
+  const queryParams = new URLSearchParams();
+  const lotId = params.lot_id || params.lotId || params.lot;
+  if (lotId && String(lotId).toLowerCase() !== 'all') queryParams.set('lot_id', lotId);
+  if (params.floor && String(params.floor).toLowerCase() !== 'all') queryParams.set('floor', params.floor);
+  const bayType = params.bay_type || params.bayType;
+  if (bayType && String(bayType).toLowerCase() !== 'all') queryParams.set('bay_type', bayType);
+  if (params.status && String(params.status).toLowerCase() !== 'all') queryParams.set('status', params.status);
+
+  const qs = queryParams.toString();
+  return liveFetch(`/admin/bays${qs ? `?${qs}` : ''}`);
 }
 
 export async function getBays(lotId, floor = null) {

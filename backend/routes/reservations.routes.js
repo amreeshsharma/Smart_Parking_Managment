@@ -141,6 +141,18 @@ router.post('/', createReservationRules, validate, asyncHandler(async (req, res)
     return fail(res, 403, 'Forbidden: You do not own this vehicle.');
   }
 
+  // Check for overlapping active or upcoming reservation on the same bay
+  const [overlapRows] = await pool.query(`
+    SELECT Reservation_ID FROM reservation
+    WHERE Bay_ID = ? AND Booking_Date = ? AND Status IN ('Upcoming', 'Active')
+      AND ? < End_Time AND ? > Start_Time
+    LIMIT 1
+  `, [bayId, bookingDate, startTime, endTime]);
+
+  if (overlapRows.length > 0) {
+    return fail(res, 400, 'Bay is already reserved for the selected time slot.');
+  }
+
   // 2. Execute sp_create_reservation on a dedicated pool connection with TiDB fallback
   const conn = await pool.getConnection();
   let resId;
@@ -179,6 +191,12 @@ router.post('/', createReservationRules, validate, asyncHandler(async (req, res)
         throw spErr;
       }
     }
+
+    // Ensure bay status is marked as Reserved
+    await pool.query(
+      "UPDATE parking_bay SET Status = 'Reserved' WHERE Bay_ID = ? AND Status = 'Available'",
+      [bayId]
+    );
   } catch (err) {
     await conn.rollback().catch(() => {});
     throw err;

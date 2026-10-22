@@ -67,8 +67,8 @@ const addVehicleRules = [
     .notEmpty().withMessage('Vehicle registration number is required.')
     .isLength({ max: 15 }).withMessage('Vehicle number cannot exceed 15 characters.'),
   body('RFID_Tag')
+    .optional()
     .trim()
-    .notEmpty().withMessage('RFID Tag is required.')
     .isLength({ max: 30 }).withMessage('RFID Tag cannot exceed 30 characters.'),
   body('Brand')
     .trim()
@@ -82,7 +82,7 @@ const addVehicleRules = [
 
 router.post('/', addVehicleRules, validate, asyncHandler(async (req, res) => {
   const plate = req.body.Vehicle_Number.trim().toUpperCase();
-  const rfid = req.body.RFID_Tag.trim().toUpperCase();
+  const rfid = (req.body.RFID_Tag || `RFID-IND-${Math.floor(1000 + Math.random() * 9000)}`).trim().toUpperCase();
   const brand = req.body.Brand.trim();
   const color = (req.body.Color || '#1E3A8A').trim();
 
@@ -114,21 +114,17 @@ router.post('/', addVehicleRules, validate, asyncHandler(async (req, res) => {
  */
 const updateVehicleRules = [
   param('id').isInt({ min: 1 }).withMessage('Invalid vehicle ID.'),
-  body('Vehicle_Number').trim().notEmpty().withMessage('Vehicle number is required.'),
-  body('RFID_Tag').trim().notEmpty().withMessage('RFID tag is required.'),
-  body('Brand').trim().notEmpty().withMessage('Brand is required.'),
+  body('Vehicle_Number').optional().trim().notEmpty().withMessage('Vehicle number cannot be empty.'),
+  body('RFID_Tag').optional().trim().notEmpty().withMessage('RFID tag cannot be empty.'),
+  body('Brand').optional().trim().notEmpty().withMessage('Brand cannot be empty.'),
   body('Color').optional().trim()
 ];
 
 router.put('/:id', updateVehicleRules, validate, asyncHandler(async (req, res) => {
   const vehicleId = Number(req.params.id);
-  const plate = req.body.Vehicle_Number.trim().toUpperCase();
-  const rfid = req.body.RFID_Tag.trim().toUpperCase();
-  const brand = req.body.Brand.trim();
-  const color = (req.body.Color || '#1E3A8A').trim();
 
   // Check vehicle existence and verify ownership
-  const [existing] = await pool.query('SELECT Vehicle_ID, User_ID FROM vehicle WHERE Vehicle_ID = ?', [vehicleId]);
+  const [existing] = await pool.query('SELECT Vehicle_ID, Vehicle_Number, RFID_Tag, Brand, Color, User_ID FROM vehicle WHERE Vehicle_ID = ?', [vehicleId]);
   if (existing.length === 0) {
     return fail(res, 404, 'Vehicle not found.');
   }
@@ -138,6 +134,11 @@ router.put('/:id', updateVehicleRules, validate, asyncHandler(async (req, res) =
   if (!isOwner && !isAdmin) {
     return fail(res, 403, 'Forbidden: You do not own this vehicle.');
   }
+
+  const plate = req.body.Vehicle_Number ? req.body.Vehicle_Number.trim().toUpperCase() : existing[0].Vehicle_Number;
+  const rfid = req.body.RFID_Tag ? req.body.RFID_Tag.trim().toUpperCase() : existing[0].RFID_Tag;
+  const brand = req.body.Brand ? req.body.Brand.trim() : existing[0].Brand;
+  const color = req.body.Color !== undefined ? req.body.Color.trim() : existing[0].Color;
 
   // Update vehicle details
   await pool.query(

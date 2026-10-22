@@ -100,10 +100,10 @@ function filterAndRenderTable() {
 
   if (searchQuery) {
     filtered = filtered.filter(p =>
-      p.Transaction_ID.toLowerCase().includes(searchQuery) ||
-      p.User_Name.toLowerCase().includes(searchQuery) ||
-      p.Vehicle_Number.toLowerCase().includes(searchQuery) ||
-      p.Payment_Type.toLowerCase().includes(searchQuery)
+      String(p.Transaction_ID || '').toLowerCase().includes(searchQuery) ||
+      String(p.User_Name || '').toLowerCase().includes(searchQuery) ||
+      String(p.Vehicle_Number || '').toLowerCase().includes(searchQuery) ||
+      String(p.Payment_Type || '').toLowerCase().includes(searchQuery)
     );
   }
 
@@ -125,7 +125,7 @@ function filterAndRenderTable() {
     return `
       <tr>
         <td class="font-mono font-semibold" style="color:var(--color-primary); font-size:0.8125rem;">
-          ${escapeHtml(p.Transaction_ID)}
+          ${escapeHtml(p.Transaction_ID || '—')}
         </td>
         <td>
           <div style="font-weight:700; color:${isPenalty ? 'var(--status-occupied)' : 'var(--color-text-main)'};">
@@ -180,7 +180,7 @@ function exportPaymentsCSV() {
   const headers = ["Payment_ID", "Transaction_ID", "Driver_Name", "Vehicle_Plate", "Facility", "Bay_Number", "Amount", "Payment_Type", "Payment_Mode", "Payment_Status", "Payment_Date", "Reservation_ID"];
   const rows = allPayments.map(p => [
     p.Payment_ID,
-    `"${p.Transaction_ID}"`,
+    `"${p.Transaction_ID || ''}"`,
     `"${(p.User_Name || '').replace(/"/g, '""')}"`,
     `"${p.Vehicle_Number}"`,
     `"${(p.Lot_Name || '').replace(/"/g, '""')}"`,
