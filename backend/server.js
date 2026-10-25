@@ -61,7 +61,9 @@ app.use(cors({
       origin.startsWith('http://192.168.') ||
       origin.startsWith('http://10.') ||
       origin.endsWith('.vercel.app') ||
-      origin.endsWith('.onrender.com')
+      origin.endsWith('.onrender.com') ||
+      origin.endsWith('.railway.app') ||
+      origin.endsWith('.up.railway.app')
     ) {
       return callback(null, true);
     }
@@ -113,7 +115,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // 6. Static frontend assets serving
-const frontendPath = path.join(__dirname, '../frontend');
+const frontendPath = process.env.FRONTEND_PATH || path.join(__dirname, '../frontend');
 if (fs.existsSync(frontendPath)) {
   app.use(express.static(frontendPath));
 }
@@ -134,8 +136,22 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // 8. Server Boot
-const server = app.listen(PORT, () => {
-  console.log(`[ParkSmart] REST API server listening at http://localhost:${PORT}/api`);
+const HOST = process.env.HOST || '0.0.0.0';
+const server = app.listen(PORT, HOST, () => {
+  console.log(`[ParkSmart] REST API server listening at http://${HOST}:${PORT}/api`);
 });
 
+// Graceful shutdown handlers for container environments (Railway, Docker)
+const handleShutdown = (signal) => {
+  console.log(`[ParkSmart] Received ${signal}. Shutting down server gracefully...`);
+  server.close(() => {
+    console.log('[ParkSmart] HTTP server closed.');
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+process.on('SIGINT', () => handleShutdown('SIGINT'));
+
 module.exports = { app, server };
+

@@ -1,0 +1,27 @@
+# Dependencies & Local Environment
+node_modules/
+backend/node_modules/
+.env
+backend/.env
+*.env
+*.log
+npm-debug.log*
+
+# Git & CI/CD
+.git/
+.github/
+
+# Documentation & Assets
+frontend/stitch-reference/
+stitch-reference/
+DEPLOYMENT.md
+DEPLOYMENT_STEPS.md
+COMMANDS.md
+prompt2.md
+ER-DIAGRAM.png
+RELATIONAL-SCHEMA.png
+DBMS_Smart_Parking_Management__.pdf
+
+# Temporary & Cloud SQL dumps
+database/sample_data_cloud.sql
+database/schema_cloud.sql
